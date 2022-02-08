@@ -42,9 +42,9 @@ void writeName(action_t * paction, char * ligne){
     //printf("nom : %s \n", paction->nom);
 }
 
-int compareDates(action_t * paction, action_t * cour){
-    int jour_comp = strcmp(paction->jour, cour->jour);
-    int heure_comp = strcmp(paction->heure, cour->heure);
+int compareDates(char * jour, char * heure, action_t * cour){
+    int jour_comp = strcmp(jour, cour->jour);
+    int heure_comp = strcmp(heure, cour->heure);
     if (jour_comp == 0){
         if (heure_comp == 0){
             return 1; //SAME DATE
@@ -68,9 +68,9 @@ int compareDates(action_t * paction, action_t * cour){
     }
 }
 
-int compareSem(semaine_t * psemaine, semaine_t * cour){
-    int annee_comp = strcmp(psemaine->annee, cour->annee);
-    int numsemaine_comp = strcmp(psemaine->num_semaine, cour->num_semaine);
+int compareSem(char * annee, char * num_semaine, semaine_t * cour){
+    int annee_comp = strcmp(annee, cour->annee);
+    int numsemaine_comp = strcmp(num_semaine, cour->num_semaine);
     if (annee_comp == 0){
         if (numsemaine_comp == 0){
             return 1; //SAME DATE
@@ -123,7 +123,7 @@ void addActionToList(action_t * action_tete, action_t * paction){
         action_t * cour = action_tete->action_suiv;
         action_t * prec = action_tete;
         while (cour != NULL && ok){
-            comp_dates = compareDates(paction, cour);
+            comp_dates = compareDates(paction->jour, paction->heure, cour);
             if (comp_dates == 3){
                 ok = 0;
             }
@@ -137,7 +137,43 @@ void addActionToList(action_t * action_tete, action_t * paction){
     }
 }
 
-semaine_t * addSemaineToList(semaine_t * semaine_tete, semaine_t * semaine_to_add){
+void removeActionFromList(semaine_t * semaine_fictive, char * annee, char * semaine, char * jour, char * heure){
+    semaine_t * semaine_cour = semaine_fictive->semaine_suiv;
+    semaine_t * semaine_prec = semaine_fictive;
+    while (semaine_cour && compareSem(annee, semaine, semaine_cour) != 1)
+    {
+        printf("not this week : %s\n", semaine_cour->num_semaine);
+        semaine_prec = semaine_cour;
+        semaine_cour = semaine_cour->semaine_suiv;
+    }
+    if (semaine_cour){
+        action_t * action_cour = semaine_cour->action;
+        action_t * action_prec = action_cour;  
+        while (action_cour && compareDates(jour, heure, action_cour) != 1)
+        {
+            printf("action now : %s\n", action_cour->nom);
+            action_prec = action_cour;
+            action_cour = action_cour->action_suiv;
+        }
+        if (action_cour)
+        {
+            if (action_cour == semaine_cour->action){
+                semaine_cour->action = action_cour->action_suiv;
+            }
+            else {
+                action_prec->action_suiv = action_cour->action_suiv;
+                }
+            free(action_cour);
+            if (!semaine_cour->action)
+            {
+                semaine_prec->semaine_suiv = semaine_cour->semaine_suiv;
+                free(semaine_cour);
+            }
+        }
+    }
+}
+
+void addSemaineToList(semaine_t * semaine_tete, semaine_t * semaine_to_add){
     //printf("-----adding : %s ----- \n", semaine_to_add->num_semaine);
     int comp_sem;
     int ok = 1;
@@ -148,7 +184,7 @@ semaine_t * addSemaineToList(semaine_t * semaine_tete, semaine_t * semaine_to_ad
         semaine_t * cour = semaine_tete->semaine_suiv;
         semaine_t * prec = semaine_tete;
         while (cour != NULL && ok){
-            comp_sem = compareSem(semaine_to_add, cour);
+            comp_sem = compareSem(semaine_to_add->annee, semaine_to_add->num_semaine, cour);
             if (comp_sem == 3){
                 ok = 0;
             }

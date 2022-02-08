@@ -1,6 +1,6 @@
 CC=gcc
 
-CFLAG=-Wall
+CFLAG= -Wall -Wextra -g
 EXEC=res
 SRC=$(wildcard *.c)
 OBJ=$(SRC:.c=.o)
