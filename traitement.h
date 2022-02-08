@@ -45,4 +45,6 @@ semaine_t * addSemaineToList(semaine_t * semaine_tete, semaine_t * semaine_to_ad
 
 semaine_t * getSemainePtr(semaine_t * semaine_tete, semaine_t * semaine_cour);
 
+void freeAll(semaine_t semaine_tete);
+
 #endif

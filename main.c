@@ -32,10 +32,11 @@ int main(){
             }
             else {
                 addActionToList(semaine_cour->action, action_cour);
+                free(semaine_tmp);
                 //printActionList(semaine_cour->action);
             }
         }
         printAll(&semaine_tete);
-
+        freeAll(semaine_tete);
     }
 }

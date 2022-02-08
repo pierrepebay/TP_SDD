@@ -173,3 +173,31 @@ semaine_t * getSemainePtr(semaine_t * semaine_tete, semaine_t * semaine_cour){
     }
     return NULL;
 }
+
+void freeActions(action_t * action){
+    action_t * cour = action;
+    action_t * tmp;
+    while (cour)
+    {
+        tmp = cour;
+        cour = cour->action_suiv;
+        free(tmp);
+    }
+    
+}
+
+void freeWeek(semaine_t * semaine_courante){
+    freeActions(semaine_courante->action);
+    free(semaine_courante); 
+}
+
+void freeAll(semaine_t semaine_tete){
+    semaine_t * cour = semaine_tete.semaine_suiv;
+    semaine_t * tmp;
+    while (cour)
+    {
+        tmp = cour;
+        cour = cour->semaine_suiv;
+        freeWeek(tmp);
+    }
+}
