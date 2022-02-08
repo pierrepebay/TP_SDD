@@ -37,6 +37,8 @@ int compareSem(semaine_t * psemaine, semaine_t * cour);
 
 void printActionList(action_t * action_tete);
 
+void printAll(semaine_t * semaine_fictive);
+
 void addActionToList(action_t * action_tete, action_t * paction);
 
 semaine_t * addSemaineToList(semaine_t * semaine_tete, semaine_t * semaine_to_add);

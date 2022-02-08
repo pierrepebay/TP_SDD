@@ -102,6 +102,15 @@ void printActionList(action_t * action_tete){
     }
 }
 
+void printAll(semaine_t * semaine_fictive) {
+    semaine_t * cour = semaine_fictive->semaine_suiv;
+    while (cour != NULL){
+        printf("%s\n", cour->num_semaine);
+        printActionList(cour->action);
+        cour = cour->semaine_suiv;
+    }
+} 
+
 void addActionToList(action_t * action_tete, action_t * paction){
     printf("-----adding : %s ----- \n", paction->nom);
     //printActionList(action_tete);

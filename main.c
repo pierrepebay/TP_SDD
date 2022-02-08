@@ -28,13 +28,14 @@ int main(){
                 semaine_cour = semaine_tmp;
                 semaine_cour->action = action_cour;
                 addSemaineToList(&semaine_tete, semaine_cour);
-                printActionList(action_cour);
+                //printActionList(action_cour);
             }
             else {
                 addActionToList(semaine_cour->action, action_cour);
-                printActionList(semaine_cour->action);
+                //printActionList(semaine_cour->action);
             }
         }
-        //printActionList(&action_tete);
+        printAll(&semaine_tete);
+
     }
 }
