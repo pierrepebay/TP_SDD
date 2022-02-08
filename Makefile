@@ -1,7 +1,6 @@
 CC=gcc
 
-LDFLAG=$(shell sdl2-config --cflags --libs) -Wall
-CFLAG=-Wall $(shell sdl2-config --cflags --libs)
+CFLAG=-Wall
 EXEC=res
 SRC=$(wildcard *.c)
 OBJ=$(SRC:.c=.o)
@@ -9,7 +8,7 @@ OBJ=$(SRC:.c=.o)
 all:$(EXEC)
 
 $(EXEC):$(OBJ)
-	$(CC) -o $@ $^ $(LDFLAG)
+	$(CC) -o $@ $^ 
 
 %.o:%.c
 	$(CC) -o $@ -c $< $(CFLAG)
@@ -18,3 +17,4 @@ $(EXEC):$(OBJ)
 
 clean:
 	rm -rf *.o
+	rm -rf $(EXEC)

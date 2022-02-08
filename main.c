@@ -22,7 +22,7 @@ int main(){
             //fin gestion ligne
 
             semaine_t * semaine_cour = getSemainePtr(&semaine_tete, semaine_tmp);
-            printf("%p \n", semaine_cour);
+            //printf("%p \n", semaine_cour);
             fflush(stdout);
             if (semaine_cour == NULL){
                 semaine_cour = semaine_tmp;

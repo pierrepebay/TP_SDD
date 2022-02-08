@@ -97,7 +97,7 @@ int compareSem(semaine_t * psemaine, semaine_t * cour){
 void printActionList(action_t * action_tete){
     action_t * cour = action_tete;
     while (cour != NULL){
-        printf("%s\n", cour->nom);
+        printf("   -- Day: %s, Hour : %s, Task Name : %s\n", cour->jour, cour->heure, cour->nom);
         cour = cour->action_suiv;
     }
 }
@@ -105,14 +105,14 @@ void printActionList(action_t * action_tete){
 void printAll(semaine_t * semaine_fictive) {
     semaine_t * cour = semaine_fictive->semaine_suiv;
     while (cour != NULL){
-        printf("%s\n", cour->num_semaine);
+        printf("Year : %s , Week: %s\n",cour->annee, cour->num_semaine);
         printActionList(cour->action);
         cour = cour->semaine_suiv;
     }
 } 
 
 void addActionToList(action_t * action_tete, action_t * paction){
-    printf("-----adding : %s ----- \n", paction->nom);
+    //printf("-----adding : %s ----- \n", paction->nom);
     //printActionList(action_tete);
     int comp_dates;
     int ok = 1;
@@ -138,7 +138,7 @@ void addActionToList(action_t * action_tete, action_t * paction){
 }
 
 semaine_t * addSemaineToList(semaine_t * semaine_tete, semaine_t * semaine_to_add){
-    printf("-----adding : %s ----- \n", semaine_to_add->num_semaine);
+    //printf("-----adding : %s ----- \n", semaine_to_add->num_semaine);
     int comp_sem;
     int ok = 1;
     if (semaine_tete->semaine_suiv == NULL){
@@ -147,9 +147,15 @@ semaine_t * addSemaineToList(semaine_t * semaine_tete, semaine_t * semaine_to_ad
     else {
         semaine_t * cour = semaine_tete->semaine_suiv;
         semaine_t * prec = semaine_tete;
-        while (cour != NULL){
-            prec = cour;
-            cour = cour->semaine_suiv;
+        while (cour != NULL && ok){
+            comp_sem = compareSem(semaine_to_add, cour);
+            if (comp_sem == 3){
+                ok = 0;
+            }
+            if (ok){
+                prec = cour;
+                cour = cour->semaine_suiv;
+            }
         }
         prec->semaine_suiv = semaine_to_add;
         semaine_to_add->semaine_suiv = cour;
