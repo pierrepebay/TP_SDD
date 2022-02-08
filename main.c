@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "traitement.c"
+#include "traitement.h"
 
 int main(){
     char ligne[21];

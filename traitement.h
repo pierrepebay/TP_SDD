@@ -1,5 +1,9 @@
-#ifdef TRAITEMENT_HEADER_
+#ifndef TRAITEMENT_HEADER_
 #define TRAITEMENT_HEADER_
+
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 
 typedef struct action{
     char jour[2];
@@ -39,4 +43,4 @@ semaine_t * addSemaineToList(semaine_t * semaine_tete, semaine_t * semaine_to_ad
 
 semaine_t * getSemainePtr(semaine_t * semaine_tete, semaine_t * semaine_cour);
 
-#endif /* TRAITEMENT_HEADER_ */
+#endif
