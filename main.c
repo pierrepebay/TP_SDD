@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "traitement.h"
+#include "semaine.h"
 
 int main(int argc, char * argv[]){
     char ligne[21];
     if (argc == 2){
         FILE * file = fopen(argv[1], "r");
         semaine_t semaine_tete;
-        semaine_tete.semaine_suiv = NULL;    
+        semaine_tete.semaine_suiv = NULL;
         if (file){
             while (!feof(file) && fgets(ligne,21,file) != NULL){
                 action_t * action_cour = (action_t *)malloc(sizeof(action_t));
