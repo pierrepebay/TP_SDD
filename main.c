@@ -25,7 +25,6 @@ int main(int argc, char * argv[]){
 
                 semaine_t * semaine_cour = getSemainePtr(&semaine_tete, semaine_tmp);
                 //printf("%p \n", semaine_cour);
-                fflush(stdout);
                 if (semaine_cour == NULL){
                     semaine_cour = semaine_tmp;
                     semaine_cour->action = action_cour;
@@ -46,6 +45,6 @@ int main(int argc, char * argv[]){
         }
     }
     else {
-        printf("Usage: ./res <data_file>\n");
+        printf("Usage: %s <file_path>\n", argv[0]);
     }
 }
