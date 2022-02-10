@@ -1,5 +1,5 @@
-#ifndef TRAITEMENT_HEADER_
-#define TRAITEMENT_HEADER_
+#ifndef ACTION_HEADER_
+#define ACTION_HEADER_
 
 #include <stdlib.h>
 #include <string.h>

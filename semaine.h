@@ -1,5 +1,5 @@
-#ifndef TRAITEMENT_HEADER_
-#define TRAITEMENT_HEADER_
+#ifndef SEMAINE_HEADER_
+#define SEMAINE_HEADER_
 
 #include <stdlib.h>
 #include <string.h>
