@@ -41,6 +41,7 @@ int main(int argc, char * argv[]){
             removeActionFromList(&semaine_tete, "2002", "10", "3", "09");
             printf("-------------");
             printAll(&semaine_tete);
+            saveListFile(&semaine_tete, "test.txt");
             freeAll(semaine_tete);
         }
     }

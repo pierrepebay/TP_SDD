@@ -189,3 +189,22 @@ void freeAll(semaine_t semaine_tete){
         freeWeek(tmp);
     }
 }
+
+void saveListFile(semaine_t * semaine_tete, char * file_name) {
+  FILE * file = fopen(file_name, "w");
+  semaine_t * cour = semaine_tete->semaine_suiv;
+  if (file) {
+    while (cour != NULL) {
+      action_t * action_cour = cour->action;
+      while (action_cour != NULL) {
+        fprintf(file, "%s", cour->annee);
+        fprintf(file, "%s", cour->num_semaine);
+        fprintf(file, "%s", action_cour->jour);
+        fprintf(file, "%s", action_cour->heure);
+        fprintf(file, "%s\n", action_cour->nom);
+        action_cour = action_cour->action_suiv;
+      }
+      cour = cour->semaine_suiv;
+    }
+  }
+}
