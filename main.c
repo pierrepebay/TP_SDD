@@ -35,11 +35,10 @@ int main(int argc, char * argv[]){
                   free(semaine_tmp); // on libère la semaine temporaire
               }
           }
+          //printAll(semaine_tete);
+          //removeActionFromList(semaine_tete, "2002", "10", "3", "09");
           printAll(semaine_tete);
-          removeActionFromList(semaine_tete, "2002", "10", "3", "09");
-          printf("-------------");
-          printAll(semaine_tete);
-          saveListFile(semaine_tete, "test.txt");
+          //saveListFile(semaine_tete, "test.txt");
           freeAll(semaine_tete);
           fclose(file);
         }

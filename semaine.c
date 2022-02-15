@@ -11,7 +11,6 @@ void writeYear(semaine_t * psemaine, char * ligne){
     for (int i = 0; i < 4; i++){
         psemaine->annee[i] = ligne[i];
     }
-    psemaine->annee[4] = '\0';
     //printf("year : %s \n", psemaine->annee);
 }
 
@@ -26,7 +25,6 @@ void writeWeek(semaine_t * psemaine, char * ligne){
     for (int i = 4; i < 6; i++){
         psemaine->num_semaine[i-4] = ligne[i];
     }
-    psemaine->num_semaine[2] = '\0';
     //printf("num semaineaine : %s \n", psemaine->num_semaine);
 }
 
@@ -74,7 +72,11 @@ int compareSem(char * annee, char * num_semaine, semaine_t * semaine_cour){
 void printAll(semaine_t * semaine_fictive) {
     semaine_t * cour = semaine_fictive->semaine_suiv;
     while (cour != NULL){
-        printf("Year : %s , Week: %s\n",cour->annee, cour->num_semaine);
+        printf("Year : ");
+        printn(cour->annee, 4);
+        printf(" Week : ");
+        printn(cour->num_semaine, 2);
+        printf("\n");
         printActionList(cour->action);
         cour = cour->semaine_suiv;
     }
@@ -152,6 +154,7 @@ void freeAll(semaine_t * semaine_tete){
     }
     free(semaine_tete);
 }
+
 
 void saveListFile(semaine_t * semaine_tete, char * file_name) {
   FILE * file = fopen(file_name, "w");

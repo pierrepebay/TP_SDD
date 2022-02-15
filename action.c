@@ -1,6 +1,12 @@
 #include "action.h"
 #include "semaine.h"
 
+void printn(char * string, int n){
+    for (int i = 0; i < n; i++){
+        printf("%c", string[i]);
+    }
+}
+
 /* -------------------------------------------------------------------- */
 /* writeDay écrit le jour de l'action en cours de traitement dans le champ psemaine->annee */
 /* */
@@ -10,7 +16,6 @@
 /* -------------------------------------------------------------------- */
 void writeDay(action_t * paction, char * ligne){
     paction->jour[0] = ligne[6];
-    paction->jour[1] = '\0';
     //printf("num jour : %s \n", paction->jour);
 }
 
@@ -24,7 +29,6 @@ void writeDay(action_t * paction, char * ligne){
 void writeHour(action_t * paction, char * ligne){
     paction->heure[0] = ligne[7];
     paction->heure[1] = ligne[8];
-    paction->heure[2] = '\0';
     //printf("hour : %s \n", paction->heure);
 }
 
@@ -39,7 +43,6 @@ void writeName(action_t * paction, char * ligne){
     for (int i = 9; i < 19; i++){
         paction->nom[i-9] = ligne[i];
     }
-    paction->nom[11] = '\0';
     //printf("nom : %s \n", paction->nom);
 }
 
@@ -87,7 +90,14 @@ int compareDates(char * jour, char * heure, action_t * action_cour){
 void printActionList(action_t * action_tete){
     action_t * cour = action_tete;
     while (cour != NULL){
-        printf("   -- Day: %s, Hour : %s, Task Name : %s\n", cour->jour, cour->heure, cour->nom);
+        printf("   -- Day: ");
+        printn(cour->jour, 2);
+        printf(" Hour: ");
+        printn(cour->heure, 2);
+        printf(" Task Name: ");
+        printn(cour->nom, 10);
+        printf("\n");
+        
         cour = cour->action_suiv;
     }
 }

@@ -26,4 +26,5 @@ void addActionToList(action_t * action_tete, action_t * paction);
 
 void freeActions(action_t * action_tete);
 
+void printn(char *, int);
 #endif
