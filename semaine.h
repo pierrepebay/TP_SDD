@@ -28,7 +28,7 @@ int compareSem(char * annee, char * num_semaine, semaine_t * cour);
 
 void printAll(semaine_t * semaine_fictive);
 
-void removeActionFromList(semaine_t * semaine_fictive, char * annee, char * semaine, char * jour, char * heure);
+void removeActionFromList(semaine_t * semaine_fictive, char * annee, char * semaine, char jour, char * heure);
 
 void addSemaineToList(semaine_t * semaine_tete, semaine_t * semaine_to_add);
 

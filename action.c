@@ -56,9 +56,8 @@ void writeName(action_t * paction, char * ligne){
 3 sinon */
 /* -------------------------------------------------------------------- */
 int compareDates(char jour, char * heure, action_t * action_cour){
-    int jour_comp = (jour == action_cour->jour);
-    int heure_comp = strcmp(strcat(heure, '\0'), action_cour->heure);
-    if (jour_comp == 0){
+    int heure_comp = strcmp(heure, action_cour->heure);
+    if (jour == action_cour->jour){
         if (heure_comp == 0){
             return 1; //SAME DATE
         }
@@ -72,7 +71,7 @@ int compareDates(char jour, char * heure, action_t * action_cour){
         }
     }
     else {
-        if (jour_comp > 0){
+        if (jour > action_cour->jour){
             return 2; //DATE1 > DATE2
         }
         else {
@@ -90,8 +89,7 @@ int compareDates(char jour, char * heure, action_t * action_cour){
 void printActionList(action_t * action_tete){
     action_t * cour = action_tete;
     while (cour != NULL){
-        printf("   -- Day: ");
-        printn(cour->jour, 2);
+        printf("   -- Day: %c", cour->jour);
         printf(" Hour: ");
         printn(cour->heure, 2);
         printf(" Task Name: ");
@@ -133,7 +131,7 @@ void addActionToList(action_t * action_tete, action_t * paction){
 /* En entrée: semaine_fictive: la tête fictive de la liste des semaines, annee: chaîne de caractères représentant l'année de l'action à supprimer, semaine: chaîne de caractères représentant la semaine de l'action à supprimer, jour: chaîne de caractères représentant le jour de l'action à supprimer, heure: chaîne de caractères représentant l'heure de l'action à supprimer  */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
-void removeActionFromList(semaine_t * semaine_fictive, char * annee, char * semaine, char * jour, char * heure){
+void removeActionFromList(semaine_t * semaine_fictive, char * annee, char * semaine, char jour, char * heure){
     semaine_t * semaine_cour = semaine_fictive->semaine_suiv;
     semaine_t * semaine_prec = semaine_fictive;
     while (semaine_cour && compareSem(annee, semaine, semaine_cour) != 1)
