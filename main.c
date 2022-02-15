@@ -41,6 +41,7 @@ int main(int argc, char * argv[]){
           printAll(semaine_tete);
           saveListFile(semaine_tete, "test.txt");
           freeAll(semaine_tete);
+          fclose(file);
         }
     }
     else {
