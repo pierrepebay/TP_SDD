@@ -42,6 +42,6 @@ void saveListFile(semaine_t * semaine_tete, char * file_name);
 
 int motifPresent(char * nom, char * motif);
 
-jourList_t createJourList(semaine_t * semaine_tete, char * motif, int taillemax);
+jourList_t * createJourList(semaine_t * semaine_tete, char * motif, int taillemax);
 
 #endif

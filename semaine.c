@@ -165,7 +165,7 @@ void saveListFile(semaine_t * semaine_tete, char * file_name) {
       while (action_cour != NULL) {
         fprintf(file, "%s", cour->annee);
         fprintf(file, "%s", cour->num_semaine);
-        fprintf(file, "%s", action_cour->jour);
+        fprintf(file, "%c", action_cour->jour);
         fprintf(file, "%s", action_cour->heure);
         fprintf(file, "%s\n", action_cour->nom);
         action_cour = action_cour->action_suiv;
@@ -187,13 +187,17 @@ int motifPresent(char * nom, char * motif) {
         ok = 0;
       }
     }
+    if (ok){
+        res = 1;
+    }
   }
+  return res;
 }
 
-jourList_t createJourList(semaine_t * semaine_tete, char * motif, int taillemax) {
+jourList_t * createJourList(semaine_t * semaine_tete, char * motif, int taillemax) {
   jourList_t * list = (jourList_t *)malloc(sizeof(jourList_t));
   list->tailleMax = taillemax;
-  char * jours;
+  char * jours = (char *)malloc(taillemax * sizeof(char));
   int i = 0;
   semaine_t * cour = semaine_tete->semaine_suiv;
   while (cour != NULL) {
@@ -209,4 +213,5 @@ jourList_t createJourList(semaine_t * semaine_tete, char * motif, int taillemax)
   }
   list->deb = jours;
   list->fin = jours + i - 1;
+  return list;
 }
