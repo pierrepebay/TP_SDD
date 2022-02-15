@@ -122,6 +122,7 @@ void freeActions(action_t * action_tete){
     {
         tmp = cour;
         cour = cour->action_suiv;
+        printf("freeing: %s\n", tmp->nom);
         free(tmp);
     }
 }

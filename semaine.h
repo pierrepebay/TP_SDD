@@ -30,7 +30,7 @@ semaine_t * getSemainePtr(semaine_t * semaine_tete, semaine_t * semaine_cour);
 
 void freeWeek(semaine_t * semaine_courante);
 
-void freeAll(semaine_t semaine_tete);
+void freeAll(semaine_t * semaine_tete);
 
 void saveListFile(semaine_t * semaine_tete, char * file_name);
 

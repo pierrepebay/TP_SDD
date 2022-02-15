@@ -170,6 +170,7 @@ semaine_t * getSemainePtr(semaine_t * semaine_tete, semaine_t * semaine_cour){
 /* -------------------------------------------------------------------- */
 void freeWeek(semaine_t * semaine_courante){
     freeActions(semaine_courante->action);
+    printf("freeing : %s %s\n", semaine_courante->annee, semaine_courante->num_semaine);
     free(semaine_courante);
 }
 
@@ -179,8 +180,8 @@ void freeWeek(semaine_t * semaine_courante){
 /* En entrée: semaine_tete: tête fictive de la liste des semaines */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
-void freeAll(semaine_t semaine_tete){
-    semaine_t * cour = semaine_tete.semaine_suiv;
+void freeAll(semaine_t * semaine_tete){
+    semaine_t * cour = semaine_tete->semaine_suiv;
     semaine_t * tmp;
     while (cour)
     {
@@ -188,6 +189,7 @@ void freeAll(semaine_t semaine_tete){
         cour = cour->semaine_suiv;
         freeWeek(tmp);
     }
+    free(semaine_tete);
 }
 
 void saveListFile(semaine_t * semaine_tete, char * file_name) {
