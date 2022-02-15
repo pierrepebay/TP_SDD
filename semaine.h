@@ -14,6 +14,12 @@ typedef struct semaine{
     struct semaine * semaine_suiv;
 } semaine_t;
 
+typedef struct jourList{
+    char * deb;
+    char * fin;
+    int tailleMax;
+} jourList_t;
+
 void writeYear(semaine_t * psemaine, char * ligne);
 
 void writeWeek(semaine_t * psemaine, char * ligne);
@@ -33,5 +39,9 @@ void freeWeek(semaine_t * semaine_courante);
 void freeAll(semaine_t * semaine_tete);
 
 void saveListFile(semaine_t * semaine_tete, char * file_name);
+
+int motifPresent(char * nom, char * motif);
+
+jourList_t createJourList(semaine_t * semaine_tete, char * motif, int taillemax);
 
 #endif

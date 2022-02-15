@@ -15,7 +15,7 @@ void printn(char * string, int n){
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
 void writeDay(action_t * paction, char * ligne){
-    paction->jour[0] = ligne[6];
+    paction->jour = ligne[6];
     //printf("num jour : %s \n", paction->jour);
 }
 
@@ -55,9 +55,9 @@ void writeName(action_t * paction, char * ligne){
 2 si la date de l'action est inférieure à la date passée en paramètre
 3 sinon */
 /* -------------------------------------------------------------------- */
-int compareDates(char * jour, char * heure, action_t * action_cour){
-    int jour_comp = strcmp(jour, action_cour->jour);
-    int heure_comp = strcmp(heure, action_cour->heure);
+int compareDates(char jour, char * heure, action_t * action_cour){
+    int jour_comp = (jour == action_cour->jour);
+    int heure_comp = strcmp(strcat(heure, '\0'), action_cour->heure);
     if (jour_comp == 0){
         if (heure_comp == 0){
             return 1; //SAME DATE
@@ -97,7 +97,7 @@ void printActionList(action_t * action_tete){
         printf(" Task Name: ");
         printn(cour->nom, 10);
         printf("\n");
-        
+
         cour = cour->action_suiv;
     }
 }

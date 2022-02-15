@@ -174,3 +174,39 @@ void saveListFile(semaine_t * semaine_tete, char * file_name) {
     }
   }
 }
+
+int motifPresent(char * nom, char * motif) {
+  int res = 0;
+  int len_motif = strlen(motif);
+  int i = 0;
+  int ok = 0;
+  while(i < 11 - len_motif || !ok) {
+    ok = 1;
+    for(int j = 0; j < len_motif; j++) {
+      if(nom[i + j] != motif[j]) {
+        ok = 0;
+      }
+    }
+  }
+}
+
+jourList_t createJourList(semaine_t * semaine_tete, char * motif, int taillemax) {
+  jourList_t * list = (jourList_t *)malloc(sizeof(jourList_t));
+  list->tailleMax = taillemax;
+  char * jours;
+  int i = 0;
+  semaine_t * cour = semaine_tete->semaine_suiv;
+  while (cour != NULL) {
+    action_t * action_cour = cour->action;
+    while (action_cour != NULL) {
+      if(motifPresent(action_cour->nom, motif)) {
+        jours[i] = action_cour->jour;
+        i++;
+      }
+      action_cour = action_cour->action_suiv;
+    }
+    cour = cour->semaine_suiv;
+  }
+  list->deb = jours;
+  list->fin = jours + i - 1;
+}
