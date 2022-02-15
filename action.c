@@ -1,4 +1,5 @@
 #include "action.h"
+#include "semaine.h"
 
 /* -------------------------------------------------------------------- */
 /* writeDay écrit le jour de l'action en cours de traitement dans le champ psemaine->annee */
@@ -115,6 +116,47 @@ void addActionToList(action_t * action_tete, action_t * paction){
     }
 }
 
+
+/* -------------------------------------------------------------------- */
+/* removeActionFromList supprime une action du calendrier */
+/* */
+/* En entrée: semaine_fictive: la tête fictive de la liste des semaines, annee: chaîne de caractères représentant l'année de l'action à supprimer, semaine: chaîne de caractères représentant la semaine de l'action à supprimer, jour: chaîne de caractères représentant le jour de l'action à supprimer, heure: chaîne de caractères représentant l'heure de l'action à supprimer  */
+/* En sortie: void */
+/* -------------------------------------------------------------------- */
+void removeActionFromList(semaine_t * semaine_fictive, char * annee, char * semaine, char * jour, char * heure){
+    semaine_t * semaine_cour = semaine_fictive->semaine_suiv;
+    semaine_t * semaine_prec = semaine_fictive;
+    while (semaine_cour && compareSem(annee, semaine, semaine_cour) != 1)
+    {
+        semaine_prec = semaine_cour;
+        semaine_cour = semaine_cour->semaine_suiv;
+    }
+    if (semaine_cour){
+        action_t * action_cour = semaine_cour->action;
+        action_t * action_prec = action_cour;
+        while (action_cour && compareDates(jour, heure, action_cour) != 1)
+        {
+            action_prec = action_cour;
+            action_cour = action_cour->action_suiv;
+        }
+        if (action_cour)
+        {
+            if (action_cour == semaine_cour->action){
+                semaine_cour->action = action_cour->action_suiv;
+            }
+            else {
+                action_prec->action_suiv = action_cour->action_suiv;
+                }
+            free(action_cour);
+            if (!semaine_cour->action)
+            {
+                semaine_prec->semaine_suiv = semaine_cour->semaine_suiv;
+                free(semaine_cour);
+            }
+        }
+    }
+}
+
 void freeActions(action_t * action_tete){
     action_t * cour = action_tete;
     action_t * tmp;
@@ -122,6 +164,7 @@ void freeActions(action_t * action_tete){
     {
         tmp = cour;
         cour = cour->action_suiv;
+        printf("freeing: %s\n", tmp->nom);
         free(tmp);
     }
 }

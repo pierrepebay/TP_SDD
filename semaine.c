@@ -80,45 +80,6 @@ void printAll(semaine_t * semaine_fictive) {
     }
 }
 
-/* -------------------------------------------------------------------- */
-/* removeActionFromList supprime une action du calendrier */
-/* */
-/* En entrée: semaine_fictive: la tête fictive de la liste des semaines, annee: chaîne de caractères représentant l'année de l'action à supprimer, semaine: chaîne de caractères représentant la semaine de l'action à supprimer, jour: chaîne de caractères représentant le jour de l'action à supprimer, heure: chaîne de caractères représentant l'heure de l'action à supprimer  */
-/* En sortie: void */
-/* -------------------------------------------------------------------- */
-void removeActionFromList(semaine_t * semaine_fictive, char * annee, char * semaine, char * jour, char * heure){
-    semaine_t * semaine_cour = semaine_fictive->semaine_suiv;
-    semaine_t * semaine_prec = semaine_fictive;
-    while (semaine_cour && compareSem(annee, semaine, semaine_cour) != 1)
-    {
-        semaine_prec = semaine_cour;
-        semaine_cour = semaine_cour->semaine_suiv;
-    }
-    if (semaine_cour){
-        action_t * action_cour = semaine_cour->action;
-        action_t * action_prec = action_cour;
-        while (action_cour && compareDates(jour, heure, action_cour) != 1)
-        {
-            action_prec = action_cour;
-            action_cour = action_cour->action_suiv;
-        }
-        if (action_cour)
-        {
-            if (action_cour == semaine_cour->action){
-                semaine_cour->action = action_cour->action_suiv;
-            }
-            else {
-                action_prec->action_suiv = action_cour->action_suiv;
-                }
-            free(action_cour);
-            if (!semaine_cour->action)
-            {
-                semaine_prec->semaine_suiv = semaine_cour->semaine_suiv;
-                free(semaine_cour);
-            }
-        }
-    }
-}
 
 /* -------------------------------------------------------------------- */
 /* addSemaineToList insère une semaine dans la liste des semaines en guardant celle-ci triée */
@@ -170,6 +131,7 @@ semaine_t * getSemainePtr(semaine_t * semaine_tete, semaine_t * semaine_cour){
 /* -------------------------------------------------------------------- */
 void freeWeek(semaine_t * semaine_courante){
     freeActions(semaine_courante->action);
+    printf("freeing : %s %s\n", semaine_courante->annee, semaine_courante->num_semaine);
     free(semaine_courante);
 }
 
@@ -179,8 +141,8 @@ void freeWeek(semaine_t * semaine_courante){
 /* En entrée: semaine_tete: tête fictive de la liste des semaines */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
-void freeAll(semaine_t semaine_tete){
-    semaine_t * cour = semaine_tete.semaine_suiv;
+void freeAll(semaine_t * semaine_tete){
+    semaine_t * cour = semaine_tete->semaine_suiv;
     semaine_t * tmp;
     while (cour)
     {
@@ -188,4 +150,5 @@ void freeAll(semaine_t semaine_tete){
         cour = cour->semaine_suiv;
         freeWeek(tmp);
     }
+    free(semaine_tete);
 }
