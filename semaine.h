@@ -32,4 +32,6 @@ void freeWeek(semaine_t * semaine_courante);
 
 void freeAll(semaine_t * semaine_tete);
 
+void saveListFile(semaine_t * semaine_tete, char * file_name);
+
 #endif

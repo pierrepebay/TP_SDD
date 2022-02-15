@@ -56,3 +56,6 @@ dkms.conf
 
 # Executable
 res
+
+# Data files
+test.txt
