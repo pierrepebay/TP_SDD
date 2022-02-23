@@ -65,3 +65,14 @@ semaine_t * createAgendaFromFile(char *file_name)
     }
     return semaine_tete;
 }
+
+void printJourList(jourList_t *jourList)
+{
+  char *cour = jourList->deb;
+  while (cour <= jourList->fin)
+  {
+    printf("%c - ", cour[0]);
+    cour += 1;
+  }
+  printf("\n");
+}

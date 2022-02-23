@@ -207,7 +207,7 @@ int motifPresent(char *nom, char *motif)
     int len_motif = strlen(motif);
     int i = 0;
     int ok = 0;
-    while (i < 11 - len_motif || !ok)
+    while (i < 11 - len_motif)
     {
         ok = 1;
         for (int j = 0; j < len_motif; j++)
@@ -220,7 +220,9 @@ int motifPresent(char *nom, char *motif)
         if (ok)
         {
             res = 1;
+            return res;
         }
+        i++;
     }
     return res;
 }
