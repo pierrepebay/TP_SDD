@@ -6,42 +6,45 @@
 #include <stdio.h>
 #include "action.h"
 
-
-typedef struct semaine{
+typedef struct semaine
+{
     char annee[5];
     char num_semaine[3];
-    action_t * action;
-    struct semaine * semaine_suiv;
+    action_t *action;
+    struct semaine *semaine_suiv;
 } semaine_t;
 
-typedef struct jourList{
-    char * deb;
-    char * fin;
+typedef struct jourList
+{
+    char *deb;
+    char *fin;
     int tailleMax;
 } jourList_t;
 
-void writeYear(semaine_t * psemaine, char * ligne);
+#include "agenda.h"
 
-void writeWeek(semaine_t * psemaine, char * ligne);
+void writeYear(semaine_t *, char *);
 
-int compareSem(char * annee, char * num_semaine, semaine_t * cour);
+void writeWeek(semaine_t *, char *);
 
-void printAll(semaine_t * semaine_fictive);
+int compareSem(char *, char *, semaine_t *);
 
-void removeActionFromList(semaine_t * semaine_fictive, char * annee, char * semaine, char jour, char * heure);
+void printAll(semaine_t *);
 
-void addSemaineToList(semaine_t * semaine_tete, semaine_t * semaine_to_add);
+void removeActionFromList(semaine_t *, char *, char *, char, char *);
 
-semaine_t * getSemainePtr(semaine_t * semaine_tete, semaine_t * semaine_cour);
+void addSemaineToList(semaine_t *, semaine_t *);
 
-void freeWeek(semaine_t * semaine_courante);
+semaine_t *getSemainePtr(semaine_t *, semaine_t *);
 
-void freeAll(semaine_t * semaine_tete);
+void freeWeek(semaine_t *);
 
-void saveListFile(semaine_t * semaine_tete, char * file_name);
+void freeAll(semaine_t *);
 
-int motifPresent(char * nom, char * motif);
+void saveListFile(semaine_t *, char *);
 
-jourList_t * createJourList(semaine_t * semaine_tete, char * motif, int taillemax);
+int motifPresent(char *, char *);
+
+jourList_t *createJourList(semaine_t *seine_tete, char *, int);
 
 #endif
