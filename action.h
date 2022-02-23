@@ -28,4 +28,6 @@ void freeActions(action_t * action_tete);
 
 void printn(char * , int);
 
+void fprintn(FILE *, char *, int);
+
 #endif

@@ -12,7 +12,7 @@ int main(int argc, char * argv[]){
       action_t * action_cour;
       semaine_t * semaine_tmp;
       if (file){
-          while (!feof(file) && fgets(ligne,21,file) != NULL){ // lecture du fichier et écriture de chaque ligne dans la chaîne de caractères "ligne"
+          while (!feof(file) && fgets(ligne, 21, file) != NULL){ // lecture du fichier et écriture de chaque ligne dans la chaîne de caractères "ligne"
               action_cour = (action_t *)malloc(sizeof(action_t));
               action_cour->action_suiv = NULL;
               semaine_tmp = (semaine_t *)malloc(sizeof(semaine_t));
@@ -38,7 +38,7 @@ int main(int argc, char * argv[]){
           //printAll(semaine_tete);
           //removeActionFromList(semaine_tete, "2002", "10", "3", "09");
           printAll(semaine_tete);
-          //saveListFile(semaine_tete, "test.txt");
+          saveListFile(semaine_tete, "test.txt");
           freeAll(semaine_tete);
           fclose(file);
         }

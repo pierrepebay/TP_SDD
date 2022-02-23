@@ -7,6 +7,12 @@ void printn(char * string, int n){
     }
 }
 
+void fprintn(FILE * file, char * string, int n){
+    for (int i = 0; i < n; i++){
+        fprintf(file, "%c", string[i]);
+    }
+}
+
 /* -------------------------------------------------------------------- */
 /* writeDay écrit le jour de l'action en cours de traitement dans le champ psemaine->annee */
 /* */

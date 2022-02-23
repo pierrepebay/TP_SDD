@@ -158,21 +158,23 @@ void freeAll(semaine_t * semaine_tete){
 
 void saveListFile(semaine_t * semaine_tete, char * file_name) {
   FILE * file = fopen(file_name, "w");
-  semaine_t * cour = semaine_tete->semaine_suiv;
+  semaine_t * semaine_cour = semaine_tete->semaine_suiv;
   if (file) {
-    while (cour != NULL) {
-      action_t * action_cour = cour->action;
+    while (semaine_cour != NULL) {
+      action_t * action_cour = semaine_cour->action;
       while (action_cour != NULL) {
-        fprintf(file, "%s", cour->annee);
-        fprintf(file, "%s", cour->num_semaine);
+        fprintn(file, semaine_cour->annee, 4);
+        fprintn(file, semaine_cour->num_semaine, 2);
         fprintf(file, "%c", action_cour->jour);
-        fprintf(file, "%s", action_cour->heure);
-        fprintf(file, "%s\n", action_cour->nom);
+        fprintn(file, action_cour->heure, 2);
+        fprintn(file, action_cour->nom, 10);
+        fprintf(file, "\n");
         action_cour = action_cour->action_suiv;
       }
-      cour = cour->semaine_suiv;
+      semaine_cour = semaine_cour->semaine_suiv;
     }
   }
+  fclose(file);
 }
 
 int motifPresent(char * nom, char * motif) {
