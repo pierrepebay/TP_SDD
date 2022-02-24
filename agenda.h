@@ -15,4 +15,6 @@ void insertToList(semaine_t *, semaine_t *, action_t *);
 semaine_t *createAgendaFromFile(char *);
 
 void printJourList(jourList_t *);
+
+void freeJourList(jourList_t *);
 #endif

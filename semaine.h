@@ -39,12 +39,12 @@ semaine_t *getSemainePtr(semaine_t *, semaine_t *);
 
 void freeWeek(semaine_t *);
 
-void freeAll(semaine_t *);
+void freeAll(semaine_t *, jourList_t *);
 
 void saveListFile(semaine_t *, char *);
 
 int motifPresent(char *, char *);
 
-jourList_t *createJourList(semaine_t *seine_tete, char *, int);
+jourList_t *createJourList(semaine_t *, char *, int);
 
 #endif

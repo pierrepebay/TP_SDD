@@ -41,7 +41,7 @@ void insertToList(semaine_t *semaine_tete, semaine_t *semaine_tmp, action_t *act
     }
 }
 
-semaine_t * createAgendaFromFile(char *file_name)
+semaine_t *createAgendaFromFile(char *file_name)
 {
     char ligne[21];
     FILE *file = fopen(file_name, "r");
@@ -68,11 +68,16 @@ semaine_t * createAgendaFromFile(char *file_name)
 
 void printJourList(jourList_t *jourList)
 {
-  char *cour = jourList->deb;
-  while (cour <= jourList->fin)
-  {
-    printf("%c - ", cour[0]);
-    cour += 1;
-  }
-  printf("\n");
+    char *cour = jourList->deb;
+    while (cour <= jourList->fin)
+    {
+        printf("%c - ", cour[0]);
+        cour += 1;
+    }
+    printf("\n");
+}
+
+void freeJourList(jourList_t * pjourList){
+    free(pjourList->deb);
+    free(pjourList);
 }

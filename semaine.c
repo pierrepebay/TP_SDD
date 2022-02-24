@@ -163,7 +163,7 @@ void freeWeek(semaine_t *semaine_courante)
 /* En entrée: semaine_tete: tête fictive de la liste des semaines */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
-void freeAll(semaine_t *semaine_tete)
+void freeAll(semaine_t *semaine_tete, jourList_t * pjourList)
 {
     semaine_t *cour = semaine_tete->semaine_suiv;
     semaine_t *tmp;
@@ -174,6 +174,7 @@ void freeAll(semaine_t *semaine_tete)
         freeWeek(tmp);
     }
     free(semaine_tete);
+    freeJourList(pjourList);
 }
 
 void saveListFile(semaine_t *semaine_tete, char *file_name)
