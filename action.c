@@ -11,7 +11,6 @@
 void writeDay(action_t *paction, char *ligne)
 {
     paction->jour = ligne[6];
-    // printf("num jour : %s \n", paction->jour);
 }
 
 /* -------------------------------------------------------------------- */
@@ -25,7 +24,6 @@ void writeHour(action_t *paction, char *ligne)
 {
     paction->heure[0] = ligne[7];
     paction->heure[1] = ligne[8];
-    // printf("hour : %s \n", paction->heure);
 }
 
 /* -------------------------------------------------------------------- */
@@ -41,7 +39,6 @@ void writeName(action_t *paction, char *ligne)
     {
         paction->nom[i - 9] = ligne[i];
     }
-    // printf("nom : %s \n", paction->nom);
 }
 
 /* -------------------------------------------------------------------- */
@@ -55,22 +52,23 @@ void writeName(action_t *paction, char *ligne)
 /* -------------------------------------------------------------------- */
 int compareDates(char jour, char *heure, action_t *action_cour)
 {
+    int retour = 0;
     int heure_comp = strcmp(heure, action_cour->heure);
     if (jour == action_cour->jour)
     {
         if (heure_comp == 0)
         {
-            return 1; // SAME DATE
+            retour = MEME_DATE; // SAME DATE
         }
         else
         {
             if (heure_comp > 0)
             {
-                return 2; // DATE1 > DATE2
+                retour = DATE1_SUP_DATE2; // DATE1 > DATE2
             }
             else
             {
-                return 3; // DATE 1 < DATE2
+                retour = DATE1_INF_DATE2; // DATE 1 < DATE2
             }
         }
     }
@@ -78,13 +76,14 @@ int compareDates(char jour, char *heure, action_t *action_cour)
     {
         if (jour > action_cour->jour)
         {
-            return 2; // DATE1 > DATE2
+            retour = DATE1_SUP_DATE2; // DATE1 > DATE2
         }
         else
         {
-            return 3; // DATE 1 < DATE2
+            retour = DATE1_INF_DATE2; // DATE 1 < DATE2
         }
     }
+    return retour;
 }
 
 /* -------------------------------------------------------------------- */
@@ -117,8 +116,6 @@ void printActionList(action_t *action_tete)
 /* -------------------------------------------------------------------- */
 void addActionToList(action_t *action_tete, action_t *paction)
 {
-    // printf("-----adding : %s ----- \n", paction->nom);
-    // printActionList(action_tete);
     if (action_tete->action_suiv == NULL)
     {
         action_tete->action_suiv = paction;
@@ -127,7 +124,7 @@ void addActionToList(action_t *action_tete, action_t *paction)
     {
         action_t *cour = action_tete->action_suiv;
         action_t *prec = action_tete;
-        while (cour != NULL && compareDates(paction->jour, paction->heure, cour) != 3)
+        while (cour != NULL && compareDates(paction->jour, paction->heure, cour) != DATE1_INF_DATE2)
         {
             prec = cour;
             cour = cour->action_suiv;
@@ -147,7 +144,7 @@ void removeActionFromList(semaine_t *semaine_fictive, char *annee, char *semaine
 {
     semaine_t *semaine_cour = semaine_fictive->semaine_suiv;
     semaine_t *semaine_prec = semaine_fictive;
-    while (semaine_cour && compareSem(annee, semaine, semaine_cour) != 1)
+    while (semaine_cour && compareSem(annee, semaine, semaine_cour) != MEME_DATE)
     {
         semaine_prec = semaine_cour;
         semaine_cour = semaine_cour->semaine_suiv;
@@ -156,7 +153,7 @@ void removeActionFromList(semaine_t *semaine_fictive, char *annee, char *semaine
     {
         action_t *action_cour = semaine_cour->action;
         action_t *action_prec = action_cour;
-        while (action_cour && compareDates(jour, heure, action_cour) != 1)
+        while (action_cour && compareDates(jour, heure, action_cour) != MEME_DATE)
         {
             action_prec = action_cour;
             action_cour = action_cour->action_suiv;
@@ -189,7 +186,6 @@ void freeActions(action_t *action_tete)
     {
         tmp = cour;
         cour = cour->action_suiv;
-        printf("freeing: %s\n", tmp->nom);
         free(tmp);
     }
 }

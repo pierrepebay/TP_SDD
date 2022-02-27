@@ -17,4 +17,12 @@ semaine_t *createAgendaFromFile(char *);
 void printJourList(jourList_t *);
 
 void freeJourList(jourList_t *);
+
+void freeAll(semaine_t *, jourList_t *);
+
+void saveListFile(semaine_t *, char *);
+
+int motifPresent(char *, char *);
+
+jourList_t *createJourList(semaine_t *, char *, int);
 #endif

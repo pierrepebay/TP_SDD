@@ -6,6 +6,10 @@
 #include <stdio.h>
 #include "action.h"
 
+#define MEME_DATE 1
+#define DATE1_SUP_DATE2 2
+#define DATE1_INF_DATE2 3
+
 typedef struct semaine
 {
     char annee[5];
@@ -38,13 +42,5 @@ void addSemaineToList(semaine_t *, semaine_t *);
 semaine_t *getSemainePtr(semaine_t *, semaine_t *);
 
 void freeWeek(semaine_t *);
-
-void freeAll(semaine_t *, jourList_t *);
-
-void saveListFile(semaine_t *, char *);
-
-int motifPresent(char *, char *);
-
-jourList_t *createJourList(semaine_t *, char *, int);
 
 #endif
