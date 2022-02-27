@@ -16,6 +16,19 @@ void fprintn(FILE *file, char *string, int n)
     }
 }
 
+
+int isLigneBlank(char * ligne){
+    int blank = 0;
+    for (int i = 0; i < 9; i++)
+        {
+        if (ligne[i] == ' '){
+            i++;
+            blank = 1;
+        }
+    }
+    return blank;
+}
+
 void traitementLigne(semaine_t *psemaine, action_t *paction, char *ligne)
 {
     writeYear(psemaine, ligne);
@@ -24,6 +37,7 @@ void traitementLigne(semaine_t *psemaine, action_t *paction, char *ligne)
     writeHour(paction, ligne);
     writeName(paction, ligne);
 }
+
 
 void insertToList(semaine_t *semaine_tete, semaine_t *semaine_tmp, action_t *action_cour)
 {
@@ -52,14 +66,17 @@ semaine_t *createAgendaFromFile(char *file_name)
     {
         while (!feof(file) && fgets(ligne, 21, file) != NULL) // lecture du fichier et écriture de chaque ligne dans la chaîne de caractères "ligne"
         {
-            action_cour = (action_t *)malloc(sizeof(action_t));
-            semaine_tmp = (semaine_t *)malloc(sizeof(semaine_t));
+            if (isLigneBlank(ligne) == 0){
 
-            // écriture des informations que contient la ligne dans les champs adéquats
-            traitementLigne(semaine_tmp, action_cour, ligne);
+                action_cour = (action_t *)malloc(sizeof(action_t));
+                semaine_tmp = (semaine_t *)malloc(sizeof(semaine_t));
 
-            // insertion de la tâche dans le calendrier
-            insertToList(semaine_tete, semaine_tmp, action_cour);
+                // écriture des informations que contient la ligne dans les champs adéquats
+                traitementLigne(semaine_tmp, action_cour, ligne);
+
+                // insertion de la tâche dans le calendrier
+                insertToList(semaine_tete, semaine_tmp, action_cour);
+            }
         }
         fclose(file);
     }

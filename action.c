@@ -102,7 +102,7 @@ void printActionList(action_t *action_tete)
         printn(cour->heure, LEN_HOUR);
         printf(" Task Name: ");
         printn(cour->nom, LEN_TASK_NAME);
-        printf("\n");
+        printf("\n"); 
 
         cour = cour->action_suiv;
     }
