@@ -43,14 +43,14 @@ void insertToList(semaine_t *semaine_tete, semaine_t *semaine_tmp, action_t *act
 
 semaine_t *createAgendaFromFile(char *file_name)
 {
-    char ligne[21];
+    char ligne[20];
     FILE *file = fopen(file_name, "r");
     semaine_t *semaine_tete = (semaine_t *)malloc(sizeof(semaine_t)); // tête fictive de la liste des semaines
     action_t *action_cour;
     semaine_t *semaine_tmp;
     if (file)
     {
-        while (!feof(file) && fgets(ligne, 21, file) != NULL) // lecture du fichier et écriture de chaque ligne dans la chaîne de caractères "ligne"
+        while (!feof(file) && fgets(ligne, 20, file) != NULL) // lecture du fichier et écriture de chaque ligne dans la chaîne de caractères "ligne"
         {
             action_cour = (action_t *)malloc(sizeof(action_t));
             semaine_tmp = (semaine_t *)malloc(sizeof(semaine_t));
@@ -169,7 +169,7 @@ jourList_t *createJourList(semaine_t *semaine_tete, char *motif, int taillemax)
         action_t *action_cour = cour->action;
         while (action_cour != NULL)
         {
-            if (motifPresent(action_cour->nom, motif))
+            if (motifPresent(action_cour->nom, motif) && i < taillemax)
             {
                 jours[i] = action_cour->jour;
                 i++;

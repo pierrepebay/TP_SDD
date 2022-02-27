@@ -12,8 +12,8 @@
 
 typedef struct semaine
 {
-    char annee[5];
-    char num_semaine[3];
+    char annee[4];
+    char num_semaine[2];
     action_t *action;
     struct semaine *semaine_suiv;
 } semaine_t;
