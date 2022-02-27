@@ -88,9 +88,9 @@ void printAll(semaine_t *semaine_fictive)
     while (cour != NULL)
     {
         printf("Year : ");
-        printn(cour->annee, 4);
+        printn(cour->annee, LEN_YEAR);
         printf(" Week : ");
-        printn(cour->num_semaine, 2);
+        printn(cour->num_semaine, LEN_WEEK);
         printf("\n");
         printActionList(cour->action);
         cour = cour->semaine_suiv;

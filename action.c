@@ -99,9 +99,9 @@ void printActionList(action_t *action_tete)
     {
         printf("   -- Day: %c", cour->jour);
         printf(" Hour: ");
-        printn(cour->heure, 2);
+        printn(cour->heure, LEN_HOUR);
         printf(" Task Name: ");
-        printn(cour->nom, 10);
+        printn(cour->nom, LEN_TASK_NAME);
         printf("\n");
 
         cour = cour->action_suiv;

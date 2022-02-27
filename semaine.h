@@ -4,16 +4,21 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "action.h"
 
 #define MEME_DATE 1
 #define DATE1_SUP_DATE2 2
 #define DATE1_INF_DATE2 3
 
+#define LEN_YEAR 4
+#define LEN_WEEK 2
+
+#include "action.h"
+
+
 typedef struct semaine
 {
-    char annee[4];
-    char num_semaine[2];
+    char annee[LEN_YEAR];
+    char num_semaine[LEN_WEEK];
     action_t *action;
     struct semaine *semaine_suiv;
 } semaine_t;

@@ -43,14 +43,14 @@ void insertToList(semaine_t *semaine_tete, semaine_t *semaine_tmp, action_t *act
 
 semaine_t *createAgendaFromFile(char *file_name)
 {
-    char ligne[20];
+    char ligne[21];
     FILE *file = fopen(file_name, "r");
     semaine_t *semaine_tete = (semaine_t *)malloc(sizeof(semaine_t)); // tête fictive de la liste des semaines
     action_t *action_cour;
     semaine_t *semaine_tmp;
     if (file)
     {
-        while (!feof(file) && fgets(ligne, 20, file) != NULL) // lecture du fichier et écriture de chaque ligne dans la chaîne de caractères "ligne"
+        while (!feof(file) && fgets(ligne, 21, file) != NULL) // lecture du fichier et écriture de chaque ligne dans la chaîne de caractères "ligne"
         {
             action_cour = (action_t *)malloc(sizeof(action_t));
             semaine_tmp = (semaine_t *)malloc(sizeof(semaine_t));
@@ -118,11 +118,11 @@ void saveListFile(semaine_t *semaine_tete, char *file_name)
             action_t *action_cour = semaine_cour->action;
             while (action_cour != NULL)
             {
-                fprintn(file, semaine_cour->annee, 4);
-                fprintn(file, semaine_cour->num_semaine, 2);
+                fprintn(file, semaine_cour->annee, LEN_YEAR);
+                fprintn(file, semaine_cour->num_semaine, LEN_WEEK);
                 fprintf(file, "%c", action_cour->jour);
-                fprintn(file, action_cour->heure, 2);
-                fprintn(file, action_cour->nom, 10);
+                fprintn(file, action_cour->heure, LEN_HOUR);
+                fprintn(file, action_cour->nom, LEN_TASK_NAME);
                 fprintf(file, "\n");
                 action_cour = action_cour->action_suiv;
             }

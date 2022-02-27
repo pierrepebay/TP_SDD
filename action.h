@@ -5,11 +5,16 @@
 #include <string.h>
 #include <stdio.h>
 
+#define LEN_DAY 1
+#define LEN_HOUR 2
+#define LEN_TASK_NAME 10
+
+
 typedef struct action
 {
     char jour;
-    char heure[2];
-    char nom[10];
+    char heure[LEN_HOUR];
+    char nom[LEN_TASK_NAME];
     struct action *action_suiv;
 } action_t;
 
