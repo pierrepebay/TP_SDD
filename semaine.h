@@ -19,33 +19,33 @@ typedef struct semaine
 {
     char annee[LEN_YEAR];
     char num_semaine[LEN_WEEK];
-    action_t *action;
-    struct semaine *semaine_suiv;
+    action_t* action;
+    struct semaine* semaine_suiv;
 } semaine_t;
 
 typedef struct jourList
 {
-    char *deb;
-    char *fin;
+    char* deb;
+    char* fin;
     int tailleMax;
 } jourList_t;
 
 #include "agenda.h"
 
-void writeYear(semaine_t *, char *);
+void writeYear(semaine_t*, char*);
 
-void writeWeek(semaine_t *, char *);
+void writeWeek(semaine_t*, char*);
 
-int compareSem(char *, char *, semaine_t *);
+int compareSem(char*, char*, semaine_t*);
 
-void printAll(semaine_t *);
+void printAll(semaine_t*);
 
-void removeActionFromList(semaine_t *, char *, char *, char, char *);
+void removeActionFromList(semaine_t*, char*, char*, char, char*);
 
-void addSemaineToList(semaine_t *, semaine_t *);
+void addSemaineToList(semaine_t*, semaine_t*);
 
-semaine_t *getSemainePtr(semaine_t *, semaine_t *);
+semaine_t*getSemainePtr(semaine_t*, semaine_t*);
 
-void freeWeek(semaine_t *);
+void freeWeek(semaine_t*);
 
 #endif

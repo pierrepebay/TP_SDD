@@ -8,7 +8,7 @@ OBJ=$(SRC:.c=.o)
 all:$(EXEC)
 
 $(EXEC):$(OBJ)
-	$(CC) -o $@ $^ 
+	$(CC) -o $@ $^
 
 %.o:%.c
 	$(CC) -o $@ -c $< $(CFLAG)

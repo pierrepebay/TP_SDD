@@ -88,14 +88,21 @@ semaine_t *createAgendaFromFile(char *file_name)
 
 void printJourList(jourList_t *jourList)
 {
-    char *cour = jourList->deb;
-    while (cour <= jourList->fin)
+    if(jourList->deb != NULL)
     {
-        printf("%c - ", cour[0]);
-        cour += 1;
+      char *cour = jourList->deb;
+      while (cour <= jourList->fin)
+      {
+          printf("%c - ", cour[0]);
+          cour += 1;
+      }
+      if (cour != jourList->deb){
+          printf("\n");
+      }
     }
-    if (cour != jourList->deb){
-        printf("\n");
+    else
+    {
+      printf("\n");
     }
 }
 
@@ -181,6 +188,11 @@ jourList_t *createJourList(semaine_t *semaine_tete, char *motif, int taillemax)
     char *jours = (char *)malloc(taillemax * sizeof(char));
     int i = 0;
     semaine_t *cour = semaine_tete->semaine_suiv;
+    if (cour == NULL)
+    {
+      jours = NULL;
+      i = 1;
+    }
     while (cour != NULL)
     {
         action_t *action_cour = cour->action;
