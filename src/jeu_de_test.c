@@ -9,7 +9,7 @@ BEGIN_TEST_GROUP(TESTS)
 
 
 TEST(listJours) {
-   tete_semaine = createAgendaFromFile("nulltest.txt");
+   tete_semaine = createAgendaFromFile("tests/nulltest.txt");
    list_jours = createJourList(tete_semaine, "Test", 2);
 
 	CHECK (list_jours->deb == NULL);
@@ -17,7 +17,7 @@ TEST(listJours) {
 
 
 TEST(fileNotFound) {
-   tete_semaine = createAgendaFromFile("foo.txt");
+   tete_semaine = createAgendaFromFile("tests/foo.txt");
    list_jours = createJourList(tete_semaine, "Test", 2);
 
 	CHECK (list_jours->deb == NULL);
@@ -25,7 +25,7 @@ TEST(fileNotFound) {
 }
 
 TEST(blankFile) {
-   tete_semaine = createAgendaFromFile("blank.txt");
+   tete_semaine = createAgendaFromFile("tests/blank.txt");
    list_jours = createJourList(tete_semaine, "Test", 2);
 
    CHECK (list_jours->deb == NULL);
@@ -34,7 +34,7 @@ TEST(blankFile) {
 
 TEST(createAgenda) {
    char buffer[10];
-   tete_semaine = createAgendaFromFile("test_agenda.txt");
+   tete_semaine = createAgendaFromFile("tests/test_agenda.txt");
    CHECK (tete_semaine->semaine_suiv != NULL);
    CHECK (compareSem("2022","15",tete_semaine->semaine_suiv));
    CHECK (compareDates('8',"10",tete_semaine->semaine_suiv->action));
@@ -44,16 +44,16 @@ TEST(createAgenda) {
 
 TEST(saveListfile_test) {
    freeAll(tete_semaine, NULL);
-   tete_semaine = createAgendaFromFile("test_agenda.txt");
-   saveListFile(tete_semaine, "test.txt");
+   tete_semaine = createAgendaFromFile("tests/test_agenda.txt");
+   saveListFile(tete_semaine, "tests/test.txt");
    
-   int diff = system("diff test_agenda.txt test.txt");
+   int diff = system("diff tests/test_agenda.txt tests/test.txt");
 
    CHECK (diff == 0);
 }
 
 TEST(jourList_test) {
-   tete_semaine = createAgendaFromFile("test_agenda.txt");
+   tete_semaine = createAgendaFromFile("tests/test_agenda.txt");
    list_jours = createJourList(tete_semaine, "Hello", 2);
 
    CHECK(tete_semaine != NULL);
