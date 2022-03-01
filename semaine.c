@@ -132,15 +132,17 @@ void addSemaineToList(semaine_t *semaine_tete, semaine_t *semaine_to_add)
 semaine_t *getSemainePtr(semaine_t *semaine_tete, semaine_t *semaine_cour)
 {   
     semaine_t *cour = semaine_tete->semaine_suiv;
-    while (cour && compareSem(cour->annee, cour->num_semaine, semaine_cour) != DATE1_SUP_DATE2)
+    semaine_t *res = NULL;
+    while (!res && cour && compareSem(cour->annee, cour->num_semaine, semaine_cour) != DATE1_SUP_DATE2)
     {
+        printf("%d\n", compareSem(cour->annee, cour->num_semaine, semaine_cour));
         if (!strcmp(cour->annee, semaine_cour->annee) && !strcmp(cour->num_semaine, semaine_cour->num_semaine))
         {
-            return cour;
+            res = cour;
         }
         cour = cour->semaine_suiv;
     }
-    return NULL;
+    return res;
 }
 
 /* -------------------------------------------------------------------- */

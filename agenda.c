@@ -41,7 +41,8 @@ void traitementLigne(semaine_t *psemaine, action_t *paction, char *ligne)
 
 void insertToList(semaine_t *semaine_tete, semaine_t *semaine_tmp, action_t *action_cour)
 {
-    semaine_t *semaine_cour = getSemainePtr(semaine_tete, semaine_tmp); // recherche si la semaine appartient à la liste des semaines
+    semaine_t *semaine_cour = NULL;
+    semaine_cour = getSemainePtr(semaine_tete, semaine_tmp); // recherche si la semaine appartient à la liste des semaines
     if (semaine_cour == NULL)
     { // si la semaine n'appartient pas à la liste des semaines
         semaine_cour = semaine_tmp;
@@ -69,10 +70,13 @@ semaine_t *createAgendaFromFile(char *file_name)
         {
             if (isLigneBlank(ligne) == 0){
 
-                action_cour = (action_t *)malloc(sizeof(action_t));
-                semaine_tmp = (semaine_t *)malloc(sizeof(semaine_t));
+                action_cour = (action_t *)calloc(1,sizeof(action_t));
+                semaine_tmp = (semaine_t *)calloc(1,sizeof(semaine_t));
                 action_cour->action_suiv = NULL;
                 semaine_tmp->semaine_suiv = NULL;
+                semaine_tmp->action = NULL;
+                strcpy(semaine_tmp->annee,"");
+                strcpy(semaine_tmp->num_semaine,"");
 
                 // écriture des informations que contient la ligne dans les champs adéquats
                 traitementLigne(semaine_tmp, action_cour, ligne);
