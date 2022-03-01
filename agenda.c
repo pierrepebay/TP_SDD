@@ -152,8 +152,8 @@ void saveListFile(semaine_t *semaine_tete, char *file_name)
             }
             semaine_cour = semaine_cour->semaine_suiv;
         }
+        fclose(file);
     }
-    fclose(file);
 }
 
 int motifPresent(char *nom, char *motif)
