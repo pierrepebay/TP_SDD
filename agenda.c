@@ -60,6 +60,7 @@ semaine_t *createAgendaFromFile(char *file_name)
     char ligne[21];
     FILE *file = fopen(file_name, "r");
     semaine_t *semaine_tete = (semaine_t *)malloc(sizeof(semaine_t)); // tête fictive de la liste des semaines
+    semaine_tete->semaine_suiv = NULL;
     action_t *action_cour;
     semaine_t *semaine_tmp;
     if (file)
@@ -70,6 +71,8 @@ semaine_t *createAgendaFromFile(char *file_name)
 
                 action_cour = (action_t *)malloc(sizeof(action_t));
                 semaine_tmp = (semaine_t *)malloc(sizeof(semaine_t));
+                action_cour->action_suiv = NULL;
+                semaine_tmp->semaine_suiv = NULL;
 
                 // écriture des informations que contient la ligne dans les champs adéquats
                 traitementLigne(semaine_tmp, action_cour, ligne);
@@ -107,8 +110,10 @@ void printJourList(jourList_t *jourList)
 }
 
 void freeJourList(jourList_t * pjourList){
-    free(pjourList->deb);
-    free(pjourList);
+    if (pjourList){
+        free(pjourList->deb);
+        free(pjourList);   
+    }
 }
 
 /* -------------------------------------------------------------------- */

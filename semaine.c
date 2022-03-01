@@ -130,7 +130,7 @@ void addSemaineToList(semaine_t *semaine_tete, semaine_t *semaine_to_add)
 /* En sortie: NULL si la semaine n'est pas dans la liste des semaines, sinon retourne l'adresse de la semaine qui figure dans la liste */
 /* -------------------------------------------------------------------- */
 semaine_t *getSemainePtr(semaine_t *semaine_tete, semaine_t *semaine_cour)
-{
+{   
     semaine_t *cour = semaine_tete->semaine_suiv;
     while (cour && compareSem(cour->annee, cour->num_semaine, semaine_cour) != DATE1_SUP_DATE2)
     {
