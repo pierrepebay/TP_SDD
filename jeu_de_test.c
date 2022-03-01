@@ -2,6 +2,7 @@
 
 semaine_t* tete_semaine;
 jourList_t*  list_jours;
+jourList_t*  list_jours2;
 
 BEGIN_TEST_GROUP(TESTS)
 
@@ -57,6 +58,15 @@ TEST(jourList_test) {
 
    CHECK(tete_semaine != NULL);
    CHECK(list_jours->deb[0] == '1');
+
+   list_jours = createJourList(tete_semaine, "",2);
+
+   CHECK(list_jours->deb[0] == '1');
+   CHECK(list_jours->deb[1] == '2');
+   CHECK(list_jours->deb + 1== list_jours->fin);
+
+   list_jours = createJourList(tete_semaine, "motif_introuvable",2);
+   CHECK(list_jours->deb == list_jours->fin);
 }
 
 END_TEST_GROUP(TESTS)

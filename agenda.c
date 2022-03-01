@@ -75,8 +75,6 @@ semaine_t *createAgendaFromFile(char *file_name)
                 action_cour->action_suiv = NULL;
                 semaine_tmp->semaine_suiv = NULL;
                 semaine_tmp->action = NULL;
-                strcpy(semaine_tmp->annee,"");
-                strcpy(semaine_tmp->num_semaine,"");
 
                 // écriture des informations que contient la ligne dans les champs adéquats
                 traitementLigne(semaine_tmp, action_cour, ligne);
@@ -192,9 +190,9 @@ int motifPresent(char *nom, char *motif)
 
 jourList_t *createJourList(semaine_t *semaine_tete, char *motif, int taillemax)
 {
-    jourList_t *list = (jourList_t *)malloc(sizeof(jourList_t));
+    jourList_t *list = (jourList_t *)calloc(1,sizeof(jourList_t));
     list->tailleMax = taillemax;
-    char *jours = (char *)malloc(taillemax * sizeof(char));
+    char *jours = (char *)calloc(taillemax , sizeof(char));
     int i = 0;
     semaine_t *cour = semaine_tete->semaine_suiv;
     if (cour == NULL)
@@ -216,7 +214,12 @@ jourList_t *createJourList(semaine_t *semaine_tete, char *motif, int taillemax)
         }
         cour = cour->semaine_suiv;
     }
+    if (i == 0){
+        list->fin = jours;    
+    }
+    else {
+        list->fin = jours + i - 1;
+    }
     list->deb = jours;
-    list->fin = jours + i - 1;
     return list;
 }
