@@ -114,7 +114,7 @@ void printJourList(jourList_t *jourList)
 void freeJourList(jourList_t * pjourList){
     if (pjourList){
         free(pjourList->deb);
-        free(pjourList);   
+        free(pjourList);
     }
 }
 
@@ -190,36 +190,45 @@ int motifPresent(char *nom, char *motif)
 
 jourList_t *createJourList(semaine_t *semaine_tete, char *motif, int taillemax)
 {
-    jourList_t *list = (jourList_t *)calloc(1,sizeof(jourList_t));
+    jourList_t* list = (jourList_t*)calloc(1,sizeof(jourList_t));
     list->tailleMax = taillemax;
-    char *jours = (char *)calloc(taillemax , sizeof(char));
+    char* jours = (char*)calloc(taillemax , sizeof(char));
     int i = 0;
-    semaine_t *cour = semaine_tete->semaine_suiv;
-    if (cour == NULL)
+    semaine_t* cour = semaine_tete->semaine_suiv;
+    if (cour == NULL) //Cas où l'agenda est vide
     {
       jours = NULL;
-      i = 1;
+      list->deb = jours;
+      list->fin = list->deb;
     }
-    while (cour != NULL)
+    else
     {
-        action_t *action_cour = cour->action;
-        while (action_cour != NULL)
-        {
-            if (motifPresent(action_cour->nom, motif) && i < taillemax)
-            {
-                jours[i] = action_cour->jour;
-                i++;
-            }
-            action_cour = action_cour->action_suiv;
-        }
-        cour = cour->semaine_suiv;
+      int ListeVide = 1;
+      while (cour != NULL)
+      {
+          action_t *action_cour = cour->action;
+          while (action_cour != NULL)
+          {
+              if (motifPresent(action_cour->nom, motif) && i < taillemax)
+              {
+                  jours[i] = action_cour->jour;
+                  i++;
+                  ListeVide = 0;
+              }
+              action_cour = action_cour->action_suiv;
+          }
+          cour = cour->semaine_suiv;
+      }
+      if (ListeVide) //Cas où le motif n'est pas trouvé dans l'agenda
+      {
+        jours = NULL;
+        list->fin = jours;
+      }
+      else
+      {
+          list->fin = jours + i - 1;
+      }
+      list->deb = jours;
     }
-    if (i == 0){
-        list->fin = jours;    
-    }
-    else {
-        list->fin = jours + i - 1;
-    }
-    list->deb = jours;
     return list;
 }

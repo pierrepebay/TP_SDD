@@ -9,7 +9,7 @@ all:$(EXEC)
 
 $(EXEC):$(OBJ)
 	$(CC) -o $@ $^
-	mv $^ bin/
+	#mv $^ bin/
 
 %.o:%.c
 	$(CC) -o $@ -c $< $(CFLAG)
