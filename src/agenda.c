@@ -197,6 +197,7 @@ jourList_t *createJourList(semaine_t *semaine_tete, char *motif, int taillemax)
     semaine_t* cour = semaine_tete->semaine_suiv;
     if (cour == NULL) //Cas où l'agenda est vide
     {
+      free(jours);
       jours = NULL;
       list->deb = jours;
       list->fin = list->deb;
@@ -221,6 +222,7 @@ jourList_t *createJourList(semaine_t *semaine_tete, char *motif, int taillemax)
       }
       if (ListeVide) //Cas où le motif n'est pas trouvé dans l'agenda
       {
+        free(jours);
         jours = NULL;
         list->fin = jours;
       }
