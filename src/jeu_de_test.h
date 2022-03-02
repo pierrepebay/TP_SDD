@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "teZZt.h"
-#include "main.h"
+#include "semaine.h"
 
 int run_tests();
 
