@@ -163,6 +163,10 @@ void saveListFile(semaine_t *semaine_tete, char *file_name)
         }
         fclose(file);
     }
+    else {
+        printf("Couldn't open file.\n");
+        exit(EXIT_FAILURE);
+    }
 }
 
 int motifPresent(char *nom, char *motif)
