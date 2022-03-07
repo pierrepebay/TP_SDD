@@ -16,19 +16,6 @@ void fprintn(FILE *file, char *string, int n)
     }
 }
 
-
-int isLigneBlank(char * ligne){
-    int blank = 0;
-    for (int i = 0; i < 9; i++)
-        {
-        if (ligne[i] == ' '){
-            i++;
-            blank = 1;
-        }
-    }
-    return blank;
-}
-
 void traitementLigne(semaine_t *psemaine, action_t *paction, char *ligne)
 {
     writeYear(psemaine, ligne);
@@ -37,7 +24,6 @@ void traitementLigne(semaine_t *psemaine, action_t *paction, char *ligne)
     writeHour(paction, ligne);
     writeName(paction, ligne);
 }
-
 
 void insertToList(semaine_t *semaine_tete, semaine_t *semaine_tmp, action_t *action_cour)
 {
@@ -60,7 +46,12 @@ semaine_t *createAgendaFromFile(char *file_name)
 {
     char ligne[21];
     FILE *file = fopen(file_name, "r");
-    semaine_t *semaine_tete = (semaine_t *)malloc(sizeof(semaine_t)); // tête fictive de la liste des semaines
+    semaine_t *semaine_tete = (semaine_t *)calloc(1, sizeof(semaine_t)); // tête fictive de la liste des semaines
+    if (!semaine_tete)
+    {
+        printf("Allocation failed.\n");
+        exit(EXIT_FAILURE);
+    }
     semaine_tete->semaine_suiv = NULL;
     action_t *action_cour;
     semaine_t *semaine_tmp;
@@ -68,10 +59,11 @@ semaine_t *createAgendaFromFile(char *file_name)
     {
         while (!feof(file) && fgets(ligne, 21, file) != NULL) // lecture du fichier et écriture de chaque ligne dans la chaîne de caractères "ligne"
         {
-            if (isLigneBlank(ligne) == 0){
 
-                action_cour = (action_t *)calloc(1,sizeof(action_t));
-                semaine_tmp = (semaine_t *)calloc(1,sizeof(semaine_t));
+            action_cour = (action_t *)calloc(1, sizeof(action_t));
+            semaine_tmp = (semaine_t *)calloc(1, sizeof(semaine_t));
+            if (action_cour && semaine_tmp)
+            {
                 action_cour->action_suiv = NULL;
                 semaine_tmp->semaine_suiv = NULL;
                 semaine_tmp->action = NULL;
@@ -82,37 +74,47 @@ semaine_t *createAgendaFromFile(char *file_name)
                 // insertion de la tâche dans le calendrier
                 insertToList(semaine_tete, semaine_tmp, action_cour);
             }
+            else
+            {
+                printf("Allocation Failed.\n");
+                exit(EXIT_FAILURE);
+            }
         }
         fclose(file);
     }
-    else {
+    else
+    {
         printf("Could not open file\n");
+        exit(EXIT_FAILURE);
     }
     return semaine_tete;
 }
 
 void printJourList(jourList_t *jourList)
 {
-    if(jourList->deb != NULL)
+    if (jourList->deb != NULL)
     {
-      char *cour = jourList->deb;
-      while (cour <= jourList->fin)
-      {
-          printf("%c - ", cour[0]);
-          cour += 1;
-      }
-      if (cour != jourList->deb){
-          printf("\n");
-      }
+        char *cour = jourList->deb;
+        while (cour <= jourList->fin)
+        {
+            printf("%c - ", cour[0]);
+            cour += 1;
+        }
+        if (cour != jourList->deb)
+        {
+            printf("\n");
+        }
     }
     else
     {
-      printf("\n");
+        printf("\n");
     }
 }
 
-void freeJourList(jourList_t * pjourList){
-    if (pjourList){
+void freeJourList(jourList_t *pjourList)
+{
+    if (pjourList)
+    {
         free(pjourList->deb);
         free(pjourList);
     }
@@ -124,7 +126,7 @@ void freeJourList(jourList_t * pjourList){
 /* En entrée: semaine_tete: tête fictive de la liste des semaines */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
-void freeAll(semaine_t *semaine_tete, jourList_t * pjourList)
+void freeAll(semaine_t *semaine_tete, jourList_t *pjourList)
 {
     semaine_t *cour = semaine_tete->semaine_suiv;
     semaine_t *tmp;
@@ -190,47 +192,52 @@ int motifPresent(char *nom, char *motif)
 
 jourList_t *createJourList(semaine_t *semaine_tete, char *motif, int taillemax)
 {
-    jourList_t* list = (jourList_t*)calloc(1,sizeof(jourList_t));
-    list->tailleMax = taillemax;
-    char* jours = (char*)calloc(taillemax , sizeof(char));
-    int i = 0;
-    semaine_t* cour = semaine_tete->semaine_suiv;
-    if (cour == NULL) //Cas où l'agenda est vide
+    jourList_t *list = (jourList_t *)calloc(1, sizeof(jourList_t));
+    char *jours = (char *)calloc(taillemax, sizeof(char));
+    if (!(list && jours))
     {
-      free(jours);
-      jours = NULL;
-      list->deb = jours;
-      list->fin = list->deb;
+        printf("Allocation Failed.\n");
+        exit(EXIT_FAILURE);
+    }
+    list->tailleMax = taillemax;
+    int i = 0;
+    semaine_t *cour = semaine_tete->semaine_suiv;
+    if (cour == NULL) // Cas où l'agenda est vide
+    {
+        free(jours);
+        jours = NULL;
+        list->deb = jours;
+        list->fin = list->deb;
     }
     else
     {
-      int ListeVide = 1;
-      while (cour != NULL)
-      {
-          action_t *action_cour = cour->action;
-          while (action_cour != NULL)
-          {
-              if (motifPresent(action_cour->nom, motif) && i < taillemax)
-              {
-                  jours[i] = action_cour->jour;
-                  i++;
-                  ListeVide = 0;
-              }
-              action_cour = action_cour->action_suiv;
-          }
-          cour = cour->semaine_suiv;
-      }
-      if (ListeVide) //Cas où le motif n'est pas trouvé dans l'agenda
-      {
-        free(jours);
-        jours = NULL;
-        list->fin = jours;
-      }
-      else
-      {
-          list->fin = jours + i - 1;
-      }
-      list->deb = jours;
+        int ListeVide = 1;
+        while (cour != NULL)
+        {
+            action_t *action_cour = cour->action;
+            while (action_cour != NULL)
+            {
+                if (motifPresent(action_cour->nom, motif) && i < taillemax)
+                {
+                    jours[i] = action_cour->jour;
+                    i++;
+                    ListeVide = 0;
+                }
+                action_cour = action_cour->action_suiv;
+            }
+            cour = cour->semaine_suiv;
+        }
+        if (ListeVide) // Cas où le motif n'est pas trouvé dans l'agenda
+        {
+            free(jours);
+            jours = NULL;
+            list->fin = jours;
+        }
+        else
+        {
+            list->fin = jours + i - 1;
+        }
+        list->deb = jours;
     }
     return list;
 }
