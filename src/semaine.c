@@ -44,6 +44,7 @@ int compareSem(char *annee, char *num_semaine, semaine_t *semaine_cour)
     int retour = 0;
     int annee_comp = strcmp(annee, semaine_cour->annee);
     int numsemaine_comp = strcmp(num_semaine, semaine_cour->num_semaine);
+    printf("%d %d\n", annee_comp, numsemaine_comp);
     if (annee_comp == 0)
     {
         if (numsemaine_comp == 0)
@@ -73,6 +74,7 @@ int compareSem(char *annee, char *num_semaine, semaine_t *semaine_cour)
             retour = DATE1_INF_DATE2; // DATE 1 < DATE2
         }
     }
+    printf("retour : %d\n", retour);
     return retour;
 }
 

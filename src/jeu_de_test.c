@@ -1,12 +1,12 @@
 #include "jeu_de_test.h"
 
 semaine_t* tete_semaine;
+semaine_t* tete_semaine2;
 jourList_t*  list_jours;
 jourList_t*  list_jours2;
 
+
 BEGIN_TEST_GROUP(TESTS)
-
-
 
 TEST(listJours) {
    tete_semaine = createAgendaFromFile("tests/nulltest.txt");
@@ -67,6 +67,17 @@ TEST(jourList_test) {
 
    list_jours = createJourList(tete_semaine, "motif_introuvable",2);
    CHECK(list_jours->deb == list_jours->fin);
+   CHECK(list_jours->deb == NULL);
+}
+
+TEST(removeActionFromList_test) {
+   // cas 1: action non présente dans la liste:
+   tete_semaine = createAgendaFromFile("tests/test_agenda.txt");
+   //removeActionFromList(tete_semaine, "2069", "12", '1', "09");
+   //tete_semaine2 = createAgendaFromFile("tests/test_agenda.txt");
+
+   int comp = compareSem(tete_semaine->semaine_suiv->annee, tete_semaine->semaine_suiv->num_semaine, tete_semaine);
+   printf("%d\n",comp);
 }
 
 END_TEST_GROUP(TESTS)
