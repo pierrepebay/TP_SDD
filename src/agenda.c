@@ -57,9 +57,9 @@ semaine_t *createAgendaFromFile(char *file_name)
     semaine_t *semaine_tmp;
     if (file)
     {
-        while (!feof(file) && fgets(ligne, 21, file) != NULL) // lecture du fichier et écriture de chaque ligne dans la chaîne de caractères "ligne"
+        fgets(ligne, 21, file);
+        while (!feof(file)) // lecture du fichier et écriture de chaque ligne dans la chaîne de caractères "ligne"
         {
-
             action_cour = (action_t *)calloc(1, sizeof(action_t));
             semaine_tmp = (semaine_t *)calloc(1, sizeof(semaine_t));
             if (action_cour && semaine_tmp)
@@ -73,6 +73,7 @@ semaine_t *createAgendaFromFile(char *file_name)
 
                 // insertion de la tâche dans le calendrier
                 insertToList(semaine_tete, semaine_tmp, action_cour);
+                fgets(ligne, 21, file);
             }
             else
             {

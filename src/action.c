@@ -53,7 +53,7 @@ void writeName(action_t *paction, char *ligne)
 int compareDates(char jour, char *heure, action_t *action_cour)
 {
     int retour = 0;
-    int heure_comp = strcmp(heure, action_cour->heure);
+    int heure_comp = strncmp(heure, action_cour->heure, LEN_HOUR);
     if (jour == action_cour->jour)
     {
         if (heure_comp == 0)

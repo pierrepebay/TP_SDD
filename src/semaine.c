@@ -42,9 +42,8 @@ void writeWeek(semaine_t *psemaine, char *ligne)
 int compareSem(char *annee, char *num_semaine, semaine_t *semaine_cour)
 {
     int retour = 0;
-    int annee_comp = strcmp(annee, semaine_cour->annee);
-    int numsemaine_comp = strcmp(num_semaine, semaine_cour->num_semaine);
-    printf("%d %d\n", annee_comp, numsemaine_comp);
+    int annee_comp = strncmp(annee, semaine_cour->annee, LEN_YEAR);
+    int numsemaine_comp = strncmp(num_semaine, semaine_cour->num_semaine, LEN_WEEK);
     if (annee_comp == 0)
     {
         if (numsemaine_comp == 0)
@@ -74,7 +73,6 @@ int compareSem(char *annee, char *num_semaine, semaine_t *semaine_cour)
             retour = DATE1_INF_DATE2; // DATE 1 < DATE2
         }
     }
-    printf("retour : %d\n", retour);
     return retour;
 }
 
@@ -137,7 +135,7 @@ semaine_t *getSemainePtr(semaine_t *semaine_tete, semaine_t *semaine_cour)
     semaine_t *res = NULL;
     while (!res && cour && compareSem(cour->annee, cour->num_semaine, semaine_cour) != DATE1_SUP_DATE2)
     {
-        if (!strcmp(cour->annee, semaine_cour->annee) && !strcmp(cour->num_semaine, semaine_cour->num_semaine))
+        if (!strncmp(cour->annee, semaine_cour->annee, LEN_YEAR) && !strncmp(cour->num_semaine, semaine_cour->num_semaine, LEN_WEEK))
         {
             res = cour;
         }
