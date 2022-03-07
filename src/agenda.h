@@ -1,28 +1,21 @@
 #ifndef AGENDA_HEADER_
 #define AGENDA_HEADER_
 
-#include "semaine.h"
-#include "action.h"
+#include "week.h"
 
-void printn(char* , int);
+void traitementLigne(week_t* , action_t* , char* );
 
-void fprintn(FILE* , char* , int);
+void insertToList(week_t* , week_t* , action_t* );
 
-void traitementLigne(semaine_t* , action_t* , char* );
+week_t* createAgendaFromFile(char* );
 
-void insertToList(semaine_t* , semaine_t* , action_t* );
+void printDayList(dayList_t* );
 
-semaine_t* createAgendaFromFile(char* );
+void freeDayList(dayList_t* );
 
-void printJourList(jourList_t* );
+void freeAll(week_t* , dayList_t* );
 
-void freeJourList(jourList_t* );
+void saveListFile(week_t* , char* );
 
-void freeAll(semaine_t* , jourList_t* );
-
-void saveListFile(semaine_t* , char* );
-
-int motifPresent(char* , char* );
-
-jourList_t* createJourList(semaine_t* , char* , int);
+dayList_t* createDayList(week_t* , char* , int);
 #endif

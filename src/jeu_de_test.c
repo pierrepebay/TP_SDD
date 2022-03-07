@@ -1,87 +1,87 @@
 #include "jeu_de_test.h"
 
-semaine_t *tete_semaine;
-semaine_t *tete_semaine2;
-semaine_t *tete_semaine3;
-jourList_t *list_jours;
-jourList_t *list_jours2;
+week_t *head_week;
+week_t *head_week2;
+week_t *head_week3;
+dayList_t *list_days;
+dayList_t *list_days2;
 
 BEGIN_TEST_GROUP(TESTS)
 
 /*
-TEST(listJours) {
-   tete_semaine = createAgendaFromFile("tests/nulltest.txt");
-   list_jours = createJourList(tete_semaine, "Test", 2);
+TEST(listDays) {
+   head_week = createAgendaFromFile("tests/nulltest.txt");
+   list_days = createDayList(head_week, "Test", 2);
 
-    CHECK (list_jours->deb == NULL);
+    CHECK (list_days->deb == NULL);
 }
 
 TEST(blankFile) {
-   tete_semaine = createAgendaFromFile("tests/blank.txt");
-   list_jours = createJourList(tete_semaine, "Test", 2);
+   head_week = createAgendaFromFile("tests/blank.txt");
+   list_days = createDayList(head_week, "Test", 2);
 
-   CHECK (list_jours->deb == NULL);
-   CHECK (tete_semaine->semaine_suiv == NULL);
+   CHECK (list_days->deb == NULL);
+   CHECK (head_week->week_suiv == NULL);
 }
 
 TEST(createAgenda) {
    char buffer[10];
-   tete_semaine = createAgendaFromFile("tests/test_agenda.txt");
-   CHECK (tete_semaine->semaine_suiv != NULL);
-   CHECK (compareSem("2022","15",tete_semaine->semaine_suiv));
-   CHECK (compareDates('8',"10",tete_semaine->semaine_suiv->action));
-   writeName(tete_semaine->semaine_suiv->action, buffer);
-   CHECK (strcmp(tete_semaine->semaine_suiv->action->nom, buffer) == 0);
+   head_week = createAgendaFromFile("tests/test_agenda.txt");
+   CHECK (head_week->week_suiv != NULL);
+   CHECK (compareSem("2022","15",head_week->week_suiv));
+   CHECK (compareDates('8',"10",head_week->week_suiv->action));
+   writeName(head_week->week_suiv->action, buffer);
+   CHECK (strcmp(head_week->week_suiv->action->nom, buffer) == 0);
 }
 
 
 TEST(saveListfile_test) {
-   tete_semaine = createAgendaFromFile("tests/test_agenda.txt");
-   saveListFile(tete_semaine, "tests/test.txt");
+   head_week = createAgendaFromFile("tests/test_agenda.txt");
+   saveListFile(head_week, "tests/test.txt");
 
    int diff = system("diff tests/test_agenda.txt tests/test.txt");
 
    CHECK (diff == 0);
 }
-TEST(jourList_test) {
-   tete_semaine = createAgendaFromFile("tests/test_agenda.txt");
-   list_jours = createJourList(tete_semaine, "Hello", 2);
+TEST(dayList_test) {
+   head_week = createAgendaFromFile("tests/test_agenda.txt");
+   list_days = createDayList(head_week, "Hello", 2);
 
-   CHECK(tete_semaine != NULL);
-   CHECK(list_jours->deb[0] == '1');
+   CHECK(head_week != NULL);
+   CHECK(list_days->deb[0] == '1');
 
-   list_jours = createJourList(tete_semaine, "",2);
+   list_days = createDayList(head_week, "",2);
 
-   CHECK(list_jours->deb[0] == '1');
-   CHECK(list_jours->deb[1] == '2');
-   CHECK(list_jours->deb + 1== list_jours->fin);
+   CHECK(list_days->deb[0] == '1');
+   CHECK(list_days->deb[1] == '2');
+   CHECK(list_days->deb + 1== list_days->fin);
 
-   list_jours = createJourList(tete_semaine, "motif_introuvable",2);
-   CHECK(list_jours->deb == list_jours->fin);
-   CHECK(list_jours->deb == NULL);
+   list_days = createDayList(head_week, "motif_introuvable",2);
+   CHECK(list_days->deb == list_days->fin);
+   CHECK(list_days->deb == NULL);
 }*/
 
 TEST(removeActionFromList_test)
 {
     // cas 1: action non présente dans la liste:
-    tete_semaine = createAgendaFromFile("tests/test_agenda.txt");
-    tete_semaine2 = createAgendaFromFile("tests/test_agenda.txt");
-    tete_semaine3 = createAgendaFromFile("tests/test_agenda.txt");
+    head_week = createAgendaFromFile("tests/test_agenda.txt");
+    head_week2 = createAgendaFromFile("tests/test_agenda.txt");
+    head_week3 = createAgendaFromFile("tests/test_agenda.txt");
 
-    semaine_t * semaine_tmp = tete_semaine2->semaine_suiv;
-    removeActionFromList(tete_semaine2, "2001", "05", '1', "08");
+    week_t * week_tmp = head_week2->week_suiv;
+    removeActionFromList(head_week2, "2001", "05", '1', "08");
     printf("-------calendrier témoin: ----------\n");
-    printAll(tete_semaine);
+    printAll(head_week);
     printf("-------fin calendrier témoin---------\n");
     printf("-------suppression de la tête: ----------\n");
-    printAll(tete_semaine2);
+    printAll(head_week2);
     printf("-------fin suppression de la tête: ----------\n");
-    printf("-------suppression semaine non présente: ----------\n");
-    removeActionFromList(tete_semaine3, "3783", "15", '2', "18");
-    printAll(tete_semaine3);
+    printf("-------suppression week non présente: ----------\n");
+    removeActionFromList(head_week3, "3783", "15", '2', "18");
+    printAll(head_week3);
     printf("-------fin suppression semmaine non présente: ----------\n");
 
-    CHECK ( semaine_tmp != tete_semaine2->semaine_suiv );
+    CHECK ( week_tmp != head_week2->week_suiv );
 }
 
 END_TEST_GROUP(TESTS)

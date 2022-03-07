@@ -1,22 +1,22 @@
 #include "action.h"
-#include "semaine.h"
+#include "week.h"
 
 /* -------------------------------------------------------------------- */
-/* writeDay écrit le jour de l'action en cours de traitement dans le champ psemaine->annee */
+/* writeDay écrit le day de l'action en cours de traitement dans le champ pweek->annee */
 /* */
-/* En entrée: psemaine: un pointeur vers une semaine, ligne: la ligne en cours de traitement */
+/* En entrée: pweek: un pointeur vers une week, ligne: la ligne en cours de traitement */
 /* */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
 void writeDay(action_t *paction, char *ligne)
 {
-    paction->jour = ligne[6];
+    paction->day = ligne[6];
 }
 
 /* -------------------------------------------------------------------- */
-/* writeHour écrit l'heure de l'action en cours de traitement dans le champ psemaine->annee */
+/* writeHour écrit l'heure de l'action en cours de traitement dans le champ pweek->annee */
 /* */
-/* En entrée: psemaine: un pointeur vers une semaine, ligne: la ligne en cours de traitement */
+/* En entrée: pweek: un pointeur vers une week, ligne: la ligne en cours de traitement */
 /* */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
@@ -27,9 +27,9 @@ void writeHour(action_t *paction, char *ligne)
 }
 
 /* -------------------------------------------------------------------- */
-/* writeName écrit le nom de l'action en cours de traitement dans le champ psemaine->annee */
+/* writeName écrit le nom de l'action en cours de traitement dans le champ pweek->annee */
 /* */
-/* En entrée: psemaine: un pointeur vers une semaine, ligne: la ligne en cours de traitement */
+/* En entrée: pweek: un pointeur vers une week, ligne: la ligne en cours de traitement */
 /* */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
@@ -44,17 +44,17 @@ void writeName(action_t *paction, char *ligne)
 /* -------------------------------------------------------------------- */
 /* compareDates compare la date d'une action avec la date donnée en paramètre */
 /* */
-/* En entrée: jour: une chaîne de caractères représentant un jour, heure: une chaîne de caractères représentant une heure, action_cour: l'action courante */
+/* En entrée: day: une chaîne de caractères représentant un day, heure: une chaîne de caractères représentant une heure, action_cour: l'action courante */
 /* */
 /* En sortie: 1 si les dates coïncident
 2 si la date de l'action est inférieure à la date passée en paramètre
 3 sinon */
 /* -------------------------------------------------------------------- */
-int compareDates(char jour, char *heure, action_t *action_cour)
+int compareDates(char day, char *heure, action_t *action_cour)
 {
     int retour = 0;
     int heure_comp = strncmp(heure, action_cour->heure, LEN_HOUR);
-    if (jour == action_cour->jour)
+    if (day == action_cour->day)
     {
         if (heure_comp == 0)
         {
@@ -74,7 +74,7 @@ int compareDates(char jour, char *heure, action_t *action_cour)
     }
     else
     {
-        if (jour > action_cour->jour)
+        if (day > action_cour->day)
         {
             retour = DATE1_SUP_DATE2; // DATE1 > DATE2
         }
@@ -89,15 +89,15 @@ int compareDates(char jour, char *heure, action_t *action_cour)
 /* -------------------------------------------------------------------- */
 /* printActionList affiche la liste des actions */
 /* */
-/* En entrée: action_tete: la tête de la liste des actions */
+/* En entrée: action_head: la tête de la liste des actions */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
-void printActionList(action_t *action_tete)
+void printActionList(action_t *action_head)
 {
-    action_t *cour = action_tete;
+    action_t *cour = action_head;
     while (cour != NULL)
     {
-        printf("   -- Day: %c", cour->jour);
+        printf("   -- Day: %c", cour->day);
         printf(" Hour: ");
         printn(cour->heure, LEN_HOUR);
         printf(" Task Name: ");
@@ -111,20 +111,20 @@ void printActionList(action_t *action_tete)
 /* -------------------------------------------------------------------- */
 /* addActionToList insère une action dans la liste des actions en guardant celle-ci triée */
 /* */
-/* En entrée: action_tete: la tête de la liste des actions, paction : pointeur vers l'action à inserer */
+/* En entrée: action_head: la tête de la liste des actions, paction : pointeur vers l'action à inserer */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
-void addActionToList(action_t *action_tete, action_t *paction)
+void addActionToList(action_t *action_head, action_t *paction)
 {
-    if (action_tete->action_suiv == NULL)
+    if (action_head->action_suiv == NULL)
     {
-        action_tete->action_suiv = paction;
+        action_head->action_suiv = paction;
     }
     else
     {
-        action_t *cour = action_tete->action_suiv;
-        action_t *prec = action_tete;
-        while (cour != NULL && compareDates(paction->jour, paction->heure, cour) != DATE1_INF_DATE2)
+        action_t *cour = action_head->action_suiv;
+        action_t *prec = action_head;
+        while (cour != NULL && compareDates(paction->day, paction->heure, cour) != DATE1_INF_DATE2)
         {
             prec = cour;
             cour = cour->action_suiv;
@@ -137,50 +137,50 @@ void addActionToList(action_t *action_tete, action_t *paction)
 /* -------------------------------------------------------------------- */
 /* removeActionFromList supprime une action du calendrier */
 /* */
-/* En entrée: semaine_fictive: la tête fictive de la liste des semaines, annee: chaîne de caractères représentant l'année de l'action à supprimer, semaine: chaîne de caractères représentant la semaine de l'action à supprimer, jour: chaîne de caractères représentant le jour de l'action à supprimer, heure: chaîne de caractères représentant l'heure de l'action à supprimer  */
+/* En entrée: week_fictive: la tête fictive de la liste des weeks, annee: chaîne de caractères représentant l'année de l'action à supprimer, week: chaîne de caractères représentant la week de l'action à supprimer, day: chaîne de caractères représentant le day de l'action à supprimer, heure: chaîne de caractères représentant l'heure de l'action à supprimer  */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
-void removeActionFromList(semaine_t *semaine_fictive, char *annee, char *semaine, char jour, char *heure)
+void removeActionFromList(week_t *week_fictive, char *annee, char *week, char day, char *heure)
 {
-    semaine_t *semaine_cour = semaine_fictive->semaine_suiv;
-    semaine_t *semaine_prec = semaine_fictive;
-    while (semaine_cour && compareSem(annee, semaine, semaine_cour) != MEME_DATE)
+    week_t *week_cour = week_fictive->week_suiv;
+    week_t *week_prec = week_fictive;
+    while (week_cour && compareSem(annee, week, week_cour) != MEME_DATE)
     {
-        semaine_prec = semaine_cour;
-        semaine_cour = semaine_cour->semaine_suiv;
+        week_prec = week_cour;
+        week_cour = week_cour->week_suiv;
     }
-    if (semaine_cour)
+    if (week_cour)
     {
-        action_t *action_cour = semaine_cour->action;
+        action_t *action_cour = week_cour->action;
         action_t *action_prec = action_cour;
-        while (action_cour && compareDates(jour, heure, action_cour) != MEME_DATE)
+        while (action_cour && compareDates(day, heure, action_cour) != MEME_DATE)
         {
             action_prec = action_cour;
             action_cour = action_cour->action_suiv;
         }
         if (action_cour)
         {
-            if (action_cour == semaine_cour->action)
+            if (action_cour == week_cour->action)
             {
-                semaine_cour->action = action_cour->action_suiv;
+                week_cour->action = action_cour->action_suiv;
             }
             else
             {
                 action_prec->action_suiv = action_cour->action_suiv;
             }
             free(action_cour);
-            if (!semaine_cour->action)
+            if (!week_cour->action)
             {
-                semaine_prec->semaine_suiv = semaine_cour->semaine_suiv;
-                free(semaine_cour);
+                week_prec->week_suiv = week_cour->week_suiv;
+                free(week_cour);
             }
         }
     }
 }
 
-void freeActions(action_t *action_tete)
+void freeActions(action_t *action_head)
 {
-    action_t *cour = action_tete;
+    action_t *cour = action_head;
     action_t *tmp;
     while (cour)
     {

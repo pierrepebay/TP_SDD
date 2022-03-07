@@ -1,20 +1,17 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include "semaine.h"
+#include "agenda.h"
 #include "jeu_de_test.h"
 
 int main(int argc, char *argv[])
 {
     if (argc == 2)
     {
-        semaine_t *tete_semaine = createAgendaFromFile(argv[1]);
-        removeActionFromList(tete_semaine,"1998","20",'5',"10");
-        printAll(tete_semaine);
-        saveListFile(tete_semaine, "saveListFile.txt");
-        jourList_t *list_jours = createJourList(tete_semaine, "Test", 2);
-        printJourList(list_jours);
-        freeAll(tete_semaine, list_jours);
+        week_t *head_week = createAgendaFromFile(argv[1]);
+        removeActionFromList(head_week,"1998","20",'5',"10");
+        printAll(head_week);
+        saveListFile(head_week, "saveListFile.txt");
+        dayList_t *list_days = createDayList(head_week, "Test", 2);
+        printDayList(list_days);
+        freeAll(head_week, list_days);
     }
     else
     {

@@ -1,9 +1,7 @@
 #ifndef ACTION_HEADER_
 #define ACTION_HEADER_
 
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
+#include "utilities.h"
 
 #define LEN_DAY 1
 #define LEN_HOUR 2
@@ -11,7 +9,7 @@
 
 typedef struct action
 {
-    char jour;
+    char day;
     char heure[LEN_HOUR];
     char nom[LEN_TASK_NAME];
     struct action* action_suiv;
