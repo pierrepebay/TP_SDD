@@ -171,10 +171,10 @@ void WriteAgendaFile(week_t *week_head, char *file_name)
     week_t *week_curr = week_head->next_week;
     if (file)
     {
-        while (week_curr != NULL)
+        while (week_curr != NULL) // Boucle d'avancée dans la liste chainee des semaines
         {
             action_t *action_curr = week_curr->action;
-            while (action_curr != NULL)
+            while (action_curr != NULL) // Boucle d'avancée dans la liste chainee des actions
             {
                 fprintn(file, week_curr->year, LEN_YEAR);
                 fprintn(file, week_curr->num_week, LEN_WEEK);
@@ -225,12 +225,12 @@ dayList_t *CreateDayList(week_t *week_head, char *motif, int maxsize)
     else
     {
         int ListeVide = 1;
-        while (curr != NULL)
+        while (curr != NULL) // Boucle d'avancée dans la liste chainee des semaines
         {
             action_t *action_curr = curr->action;
-            while (action_curr != NULL)
+            while (action_curr != NULL) // Boucle d'avancée dans la liste chainee des actions
             {
-                if (PatternInString(action_curr->name, motif) && i < maxsize)
+                if (PatternInString(action_curr->name, motif) && i < maxsize) // Cas ou le nom d'action contient le motif
                 {
                     days[i] = action_curr->day;
                     i++;
@@ -248,7 +248,7 @@ dayList_t *CreateDayList(week_t *week_head, char *motif, int maxsize)
         }
         else
         {
-            list->end = days + i - 1;
+            list->end = days + i - 1; // Reglage du pointeur de fin sachant que le bloc mémoire des jours est contigu
         }
         list->start = days;
     }
