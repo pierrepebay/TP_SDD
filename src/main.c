@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     else
     {
         printf("Usage: %s <file>\n", argv[0]);
-        //run_tests(); //à décommenter si on veut utiliser les fonctions de test
+        // run_tests(); //à décommenter si on veut utiliser les fonctions de test
     }
     return 0;
 }
