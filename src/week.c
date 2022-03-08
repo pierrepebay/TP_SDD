@@ -124,18 +124,18 @@ void AddWeekToAgenda(week_t *week_head, week_t *week_to_add)
 }
 
 /* -------------------------------------------------------------------- */
-/* GetWeekPtr recherche une week spécifique dans la liste des weeks */
+/* GetWeekPtr recherche une semaine spécifique dans la liste des semaines */
 /* */
-/* En entrée: week_head: la tête de la liste des actions, week_curr : pointeur vers une week à chercher */
-/* En sortie: NULL si la week n'est pas dans la liste des weeks, sinon retourne l'adresse de la week qui figure dans la liste */
+/* En entrée: week_head: la tête de la liste des actions, week_tmp : pointeur vers une semaine à chercher */
+/* En sortie: NULL si week_tmp n'est pas dans la liste des semaines, sinon retourne l'adresse de la week qui figure dans la liste */
 /* -------------------------------------------------------------------- */
-week_t *GetWeekPtr(week_t *week_head, week_t *week_curr)
+week_t *GetWeekPtr(week_t *week_head, week_t *week_tmp)
 {
     week_t *curr = week_head->next_week;
     week_t *res = NULL;
-    while (!res && curr && CompareWeekDates(curr->year, curr->num_week, week_curr) != DATE1_SUP_DATE2)
+    while (!res && curr && CompareWeekDates(curr->year, curr->num_week, week_tmp) != DATE1_SUP_DATE2)
     {
-        if (!strncmp(curr->year, week_curr->year, LEN_YEAR) && !strncmp(curr->num_week, week_curr->num_week, LEN_WEEK))
+        if (!strncmp(curr->year, week_tmp->year, LEN_YEAR) && !strncmp(curr->num_week, week_tmp->num_week, LEN_WEEK))
         {
             res = curr;
         }
@@ -144,56 +144,56 @@ week_t *GetWeekPtr(week_t *week_head, week_t *week_curr)
     return res;
 }
 
-
 /* -------------------------------------------------------------------- */
 /* RemoveActionFromAgenda supprime une action du calendrier */
 /* */
-/* En entrée: week_fictive: la tête fictive de la liste des weeks, year: chaîne de caractères représentant l'année de l'action à supprimer, week: chaîne de caractères représentant la week de l'action à supprimer, day: chaîne de caractères représentant le day de l'action à supprimer, hour: chaîne de caractères représentant l'hour de l'action à supprimer  */
+/* En entrée: week_fictive: la tête fictive de la liste des semaines, year: chaîne de caractères représentant l'année de l'action à supprimer, week: chaîne de caractères représentant la semaine de l'action à supprimer, day: chaîne de caractères représentant le day de l'action à supprimer, hour: chaîne de caractères représentant l'hour de l'action à supprimer  */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
 void RemoveActionFromAgenda(week_t *week_fictive, char *year, char *week, char day, char *hour)
 {
     week_t *week_curr = week_fictive->next_week;
     week_t *week_prec = week_fictive;
-    while (week_curr && CompareWeekDates(year, week, week_curr) != SAME_DATE)
+    while (week_curr && CompareWeekDates(year, week, week_curr) != SAME_DATE) // parcours de l'agenda pour trouver la bonne semaine
     {
         week_prec = week_curr;
         week_curr = week_curr->next_week;
     }
-    if (week_curr)
+    if (week_curr) // si la semaine est bien présente dans l'agenda
     {
         action_t *action_curr = week_curr->action;
         action_t *action_prec = action_curr;
-        while (action_curr && CompareActionDates(day, hour, action_curr) != SAME_DATE)
+        while (action_curr && CompareActionDates(day, hour, action_curr) != SAME_DATE) // parcours de la liste des actions pour trouver l'action à supprimer
         {
             action_prec = action_curr;
             action_curr = action_curr->next_action;
         }
-        if (action_curr)
+        if (action_curr) // si on trouve l'action à supprimer
         {
-            if (action_curr == week_curr->action)
+            if (action_curr == week_curr->action) // si l'action se trouve en tête de liste
             {
                 week_curr->action = action_curr->next_action;
+                week_prec->next_week = week_curr->next_week;
+                free(week_curr);
             }
             else
             {
                 action_prec->next_action = action_curr->next_action;
             }
-            free(action_curr);
-            if (!week_curr->action)
+            free(action_curr);      // on libère l'action qu'on vient de retirer du chainage
+            if (!week_curr->action) // si la semaine ne comporte plus d'actions suite à la suppression de l'action
             {
                 week_prec->next_week = week_curr->next_week;
-                free(week_curr);
+                free(week_curr); // on libère la semaine
             }
         }
     }
 }
 
-
 /* -------------------------------------------------------------------- */
-/* FreeWeek libère une week */
+/* FreeWeek libère une semaine */
 /* */
-/* En entrée: week_currante: pointeur vers la week à liberer */
+/* En entrée: week_currante: pointeur vers la semaine à liberer */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
 void FreeWeek(week_t *week_currante)

@@ -1,6 +1,5 @@
 #include "agenda.h"
 
-
 /* -------------------------------------------------------------------- */
 /* ProcessLine écrit les informations contenues dans une ligne dans les champs adéquats */
 /* */
@@ -18,9 +17,8 @@ void ProcessLine(week_t *pweek, action_t *paction, char *ligne)
     WriteName(paction, ligne);
 }
 
-
 /* -------------------------------------------------------------------- */
-/* InsertToAgenda insère une action dans le calendrier */
+/* InsertToAgenda insère une nouvelle semaine dans l'agenda ou insère une action de une semaine déjà présente deans l'agenda*/
 /* */
 /* En entrée: week_head: semaine fictive
               week_tmp: semaine qu'on rajoute potentiellement à l'agenda
@@ -32,18 +30,17 @@ void InsertToAgenda(week_t *week_head, week_t *week_tmp, action_t *action_curr)
     week_t *week_curr = NULL;
     week_curr = GetWeekPtr(week_head, week_tmp); // recherche si la semaine appartient à la liste des semaines
     if (week_curr == NULL)
-    { // si la semaine n'appartient pas à la liste des semaines
+    { // si la semaine n'appartient pas à la liste des semaines, alors on insère week_tmp dans l'agenda
         week_curr = week_tmp;
         week_curr->action = action_curr;
         AddWeekToAgenda(week_head, week_curr);
     }
     else
-    { // si la semaine est déjà présente dans la liste des semaines
+    { // si la semaine est déjà présente dans la liste des semaines, on insère l'action dans la semaine trouvée et on libère week_tmp
         AddActionToList(week_curr->action, action_curr);
         free(week_tmp); // on libère la semaine temporaire
     }
 }
-
 
 /* -------------------------------------------------------------------- */
 /* CreateAgendaFromFile crée l'agenda à partir d'un fichier */
@@ -73,10 +70,6 @@ week_t *CreateAgendaFromFile(char *file_name)
             week_tmp = (week_t *)calloc(1, sizeof(week_t));
             if (action_curr && week_tmp)
             {
-                action_curr->next_action = NULL;
-                week_tmp->next_week = NULL;
-                week_tmp->action = NULL;
-
                 // écriture des informations que contient la ligne dans les champs adéquats
                 ProcessLine(week_tmp, action_curr, ligne);
 
@@ -101,7 +94,6 @@ week_t *CreateAgendaFromFile(char *file_name)
     }
     return week_head;
 }
-
 
 /* -------------------------------------------------------------------- */
 /* PrintDayList affiche la liste des jours comportant un motif */
@@ -166,7 +158,6 @@ void FreeAll(week_t *week_head, dayList_t *pdayList)
     FreeDayList(pdayList);
 }
 
-
 /* -------------------------------------------------------------------- */
 /* WriteAgendaFile écrit le calendrier dans un fichier */
 /* */
@@ -197,12 +188,12 @@ void WriteAgendaFile(week_t *week_head, char *file_name)
         }
         fclose(file);
     }
-    else {
+    else
+    {
         printf("Couldn't open file.\n");
         exit(EXIT_FAILURE);
     }
 }
-
 
 /* -------------------------------------------------------------------- */
 /* CreateDayList crée une liste contigue de jour où un motif est présent */

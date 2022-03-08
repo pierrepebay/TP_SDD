@@ -116,22 +116,15 @@ void PrintActionList(action_t *action_head)
 /* -------------------------------------------------------------------- */
 void AddActionToList(action_t *action_head, action_t *paction)
 {
-    if (action_head->next_action == NULL)
+    action_t *curr = action_head->next_action;
+    action_t *prec = action_head;
+    while (curr != NULL && CompareActionDates(paction->day, paction->hour, curr) != DATE1_INF_DATE2) // parcours de la liste des actions
     {
-        action_head->next_action = paction;
+        prec = curr;
+        curr = curr->next_action;
     }
-    else
-    {
-        action_t *curr = action_head->next_action;
-        action_t *prec = action_head;
-        while (curr != NULL && CompareActionDates(paction->day, paction->hour, curr) != DATE1_INF_DATE2)
-        {
-            prec = curr;
-            curr = curr->next_action;
-        }
-        prec->next_action = paction;
-        paction->next_action = curr;
-    }
+    prec->next_action = paction;
+    paction->next_action = curr;
 }
 /* -------------------------------------------------------------------- */
 /* FreeActions libère la liste des actions */
@@ -145,7 +138,7 @@ void FreeActions(action_t *action_head)
     action_t *tmp;
     while (curr)
     {
-        tmp = curr;
+        tmp = curr; // tmp sauvegarde l'adresse du bloc
         curr = curr->next_action;
         free(tmp);
     }
