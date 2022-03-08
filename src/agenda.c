@@ -1,5 +1,14 @@
 #include "agenda.h"
 
+
+/* -------------------------------------------------------------------- */
+/* ProcessLine écrit les informations contenues dans une ligne dans les champs adéquats */
+/* */
+/* En entrée: pweek: pointeur vers une semaine
+              paction: pointeur vers une action
+              ligne: la ligne contenant les informations */
+/* En sortie: void */
+/* -------------------------------------------------------------------- */
 void ProcessLine(week_t *pweek, action_t *paction, char *ligne)
 {
     WriteYear(pweek, ligne);
@@ -9,6 +18,15 @@ void ProcessLine(week_t *pweek, action_t *paction, char *ligne)
     WriteName(paction, ligne);
 }
 
+
+/* -------------------------------------------------------------------- */
+/* InsertToAgenda insère une action dans le calendrier */
+/* */
+/* En entrée: week_head: semaine fictive
+              week_tmp: semaine qu'on rajoute potentiellement à l'agenda
+              action_curr: action à inserer dans l'agenda */
+/* En sortie: void */
+/* -------------------------------------------------------------------- */
 void InsertToAgenda(week_t *week_head, week_t *week_tmp, action_t *action_curr)
 {
     week_t *week_curr = NULL;
@@ -26,6 +44,13 @@ void InsertToAgenda(week_t *week_head, week_t *week_tmp, action_t *action_curr)
     }
 }
 
+
+/* -------------------------------------------------------------------- */
+/* CreateAgendaFromFile crée l'agenda à partir d'un fichier */
+/* */
+/* En entrée: file_name: nom du fichier */
+/* En sortie: pointeur vers la tête fictive de la liste chaînée des semaines */
+/* -------------------------------------------------------------------- */
 week_t *CreateAgendaFromFile(char *file_name)
 {
     char ligne[21];
@@ -77,6 +102,13 @@ week_t *CreateAgendaFromFile(char *file_name)
     return week_head;
 }
 
+
+/* -------------------------------------------------------------------- */
+/* PrintDayList affiche la liste des jours comportant un motif */
+/* */
+/* En entrée: dayList: pointeur vers dayList */
+/* En sortie: void */
+/* -------------------------------------------------------------------- */
 void PrintDayList(dayList_t *dayList)
 {
     if (dayList->start != NULL)
@@ -97,6 +129,13 @@ void PrintDayList(dayList_t *dayList)
         printf("\n");
     }
 }
+
+/* -------------------------------------------------------------------- */
+/* FreeDayList libère dayList */
+/* */
+/* En entrée: pdayList: pointeur vers dayList */
+/* En sortie: void */
+/* -------------------------------------------------------------------- */
 
 void FreeDayList(dayList_t *pdayList)
 {
@@ -127,6 +166,14 @@ void FreeAll(week_t *week_head, dayList_t *pdayList)
     FreeDayList(pdayList);
 }
 
+
+/* -------------------------------------------------------------------- */
+/* WriteAgendaFile écrit le calendrier dans un fichier */
+/* */
+/* En entrée: week_head: tête fictive de la liste des weeks
+              file_name: nom du fichier */
+/* En sortie: void */
+/* -------------------------------------------------------------------- */
 void WriteAgendaFile(week_t *week_head, char *file_name)
 {
     FILE *file = fopen(file_name, "w");
@@ -156,6 +203,15 @@ void WriteAgendaFile(week_t *week_head, char *file_name)
     }
 }
 
+
+/* -------------------------------------------------------------------- */
+/* CreateDayList crée une liste contigue de jour où un motif est présent */
+/* */
+/* En entrée: week_head: tête fictive de la liste des weeks
+              motif: le motif à rechercher
+              maxsize: taille max de la liste */
+/* En sortie: void */
+/* -------------------------------------------------------------------- */
 dayList_t *CreateDayList(week_t *week_head, char *motif, int maxsize)
 {
     dayList_t *list = (dayList_t *)calloc(1, sizeof(dayList_t));

@@ -133,7 +133,12 @@ void AddActionToList(action_t *action_head, action_t *paction)
         paction->next_action = curr;
     }
 }
-
+/* -------------------------------------------------------------------- */
+/* FreeActions libère la liste des actions */
+/* */
+/* En entrée: action_head: pointeur vers la première action à liberer */
+/* En sortie: void */
+/* -------------------------------------------------------------------- */
 void FreeActions(action_t *action_head)
 {
     action_t *curr = action_head;
