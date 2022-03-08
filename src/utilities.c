@@ -16,7 +16,7 @@ void fprintn(FILE *file, char *string, int n)
     }
 }
 
-int motifPresent(char *nom, char *motif)
+int PatternInString(char *name, char *motif)
 {
     int res = 0;
     int len_motif = strlen(motif);
@@ -27,7 +27,7 @@ int motifPresent(char *nom, char *motif)
         ok = 1;
         for (int j = 0; j < len_motif; j++)
         {
-            if (nom[i + j] != motif[j])
+            if (name[i + j] != motif[j])
             {
                 ok = 0;
             }

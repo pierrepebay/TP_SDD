@@ -1,32 +1,32 @@
 #include "agenda.h"
 
-void traitementLigne(week_t *pweek, action_t *paction, char *ligne)
+void ProcessLine(week_t *pweek, action_t *paction, char *ligne)
 {
-    writeYear(pweek, ligne);
-    writeWeek(pweek, ligne);
-    writeDay(paction, ligne);
-    writeHour(paction, ligne);
-    writeName(paction, ligne);
+    WriteYear(pweek, ligne);
+    WriteWeek(pweek, ligne);
+    WriteDay(paction, ligne);
+    WriteHour(paction, ligne);
+    WriteName(paction, ligne);
 }
 
-void insertToList(week_t *week_head, week_t *week_tmp, action_t *action_cour)
+void InsertToAgenda(week_t *week_head, week_t *week_tmp, action_t *action_curr)
 {
-    week_t *week_cour = NULL;
-    week_cour = getWeekPtr(week_head, week_tmp); // recherche si la week appartient à la liste des weeks
-    if (week_cour == NULL)
+    week_t *week_curr = NULL;
+    week_curr = GetWeekPtr(week_head, week_tmp); // recherche si la week appartient à la liste des weeks
+    if (week_curr == NULL)
     { // si la week n'appartient pas à la liste des weeks
-        week_cour = week_tmp;
-        week_cour->action = action_cour;
-        addWeekToList(week_head, week_cour);
+        week_curr = week_tmp;
+        week_curr->action = action_curr;
+        AddWeekToAgenda(week_head, week_curr);
     }
     else
     { // si la week est déjà présente dans la liste des weeks
-        addActionToList(week_cour->action, action_cour);
+        AddActionToList(week_curr->action, action_curr);
         free(week_tmp); // on libère la week temporaire
     }
 }
 
-week_t *createAgendaFromFile(char *file_name)
+week_t *CreateAgendaFromFile(char *file_name)
 {
     char ligne[21];
     FILE *file = fopen(file_name, "r");
@@ -36,27 +36,27 @@ week_t *createAgendaFromFile(char *file_name)
         printf("Allocation failed.\n");
         exit(EXIT_FAILURE);
     }
-    week_head->week_suiv = NULL;
-    action_t *action_cour;
+    week_head->next_week = NULL;
+    action_t *action_curr;
     week_t *week_tmp;
     if (file)
     {
         fgets(ligne, 21, file);
         while (!feof(file)) // lecture du fichier et écriture de chaque ligne dans la chaîne de caractères "ligne"
         {
-            action_cour = (action_t *)calloc(1, sizeof(action_t));
+            action_curr = (action_t *)calloc(1, sizeof(action_t));
             week_tmp = (week_t *)calloc(1, sizeof(week_t));
-            if (action_cour && week_tmp)
+            if (action_curr && week_tmp)
             {
-                action_cour->action_suiv = NULL;
-                week_tmp->week_suiv = NULL;
+                action_curr->next_action = NULL;
+                week_tmp->next_week = NULL;
                 week_tmp->action = NULL;
 
                 // écriture des informations que contient la ligne dans les champs adéquats
-                traitementLigne(week_tmp, action_cour, ligne);
+                ProcessLine(week_tmp, action_curr, ligne);
 
                 // insertion de la tâche dans le calendrier
-                insertToList(week_head, week_tmp, action_cour);
+                InsertToAgenda(week_head, week_tmp, action_curr);
                 fgets(ligne, 21, file);
             }
             else
@@ -75,17 +75,17 @@ week_t *createAgendaFromFile(char *file_name)
     return week_head;
 }
 
-void printDayList(dayList_t *dayList)
+void PrintDayList(dayList_t *dayList)
 {
-    if (dayList->deb != NULL)
+    if (dayList->start != NULL)
     {
-        char *cour = dayList->deb;
-        while (cour <= dayList->fin)
+        char *curr = dayList->start;
+        while (curr <= dayList->end)
         {
-            printf("%c - ", cour[0]);
-            cour += 1;
+            printf("%c - ", curr[0]);
+            curr += 1;
         }
-        if (cour != dayList->deb)
+        if (curr != dayList->start)
         {
             printf("\n");
         }
@@ -96,55 +96,55 @@ void printDayList(dayList_t *dayList)
     }
 }
 
-void freeDayList(dayList_t *pdayList)
+void FreeDayList(dayList_t *pdayList)
 {
     if (pdayList)
     {
-        free(pdayList->deb);
+        free(pdayList->start);
         free(pdayList);
     }
 }
 
 /* -------------------------------------------------------------------- */
-/* freeAll libère tout le calendrier */
+/* FreeAll libère tout le calendrier */
 /* */
 /* En entrée: week_head: tête fictive de la liste des weeks */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
-void freeAll(week_t *week_head, dayList_t *pdayList)
+void FreeAll(week_t *week_head, dayList_t *pdayList)
 {
-    week_t *cour = week_head->week_suiv;
+    week_t *curr = week_head->next_week;
     week_t *tmp;
-    while (cour)
+    while (curr)
     {
-        tmp = cour;
-        cour = cour->week_suiv;
-        freeWeek(tmp);
+        tmp = curr;
+        curr = curr->next_week;
+        FreeWeek(tmp);
     }
     free(week_head);
-    freeDayList(pdayList);
+    FreeDayList(pdayList);
 }
 
-void saveListFile(week_t *week_head, char *file_name)
+void WriteAgendaFile(week_t *week_head, char *file_name)
 {
     FILE *file = fopen(file_name, "w");
-    week_t *week_cour = week_head->week_suiv;
+    week_t *week_curr = week_head->next_week;
     if (file)
     {
-        while (week_cour != NULL)
+        while (week_curr != NULL)
         {
-            action_t *action_cour = week_cour->action;
-            while (action_cour != NULL)
+            action_t *action_curr = week_curr->action;
+            while (action_curr != NULL)
             {
-                fprintn(file, week_cour->annee, LEN_YEAR);
-                fprintn(file, week_cour->num_week, LEN_WEEK);
-                fprintf(file, "%c", action_cour->day);
-                fprintn(file, action_cour->heure, LEN_HOUR);
-                fprintn(file, action_cour->nom, LEN_TASK_NAME);
+                fprintn(file, week_curr->year, LEN_YEAR);
+                fprintn(file, week_curr->num_week, LEN_WEEK);
+                fprintf(file, "%c", action_curr->day);
+                fprintn(file, action_curr->hour, LEN_HOUR);
+                fprintn(file, action_curr->name, LEN_TASK_NAME);
                 fprintf(file, "\n");
-                action_cour = action_cour->action_suiv;
+                action_curr = action_curr->next_action;
             }
-            week_cour = week_cour->week_suiv;
+            week_curr = week_curr->next_week;
         }
         fclose(file);
     }
@@ -154,7 +154,7 @@ void saveListFile(week_t *week_head, char *file_name)
     }
 }
 
-dayList_t *createDayList(week_t *week_head, char *motif, int taillemax)
+dayList_t *CreateDayList(week_t *week_head, char *motif, int taillemax)
 {
     dayList_t *list = (dayList_t *)calloc(1, sizeof(dayList_t));
     char *days = (char *)calloc(taillemax, sizeof(char));
@@ -165,43 +165,43 @@ dayList_t *createDayList(week_t *week_head, char *motif, int taillemax)
     }
     list->tailleMax = taillemax;
     int i = 0;
-    week_t *cour = week_head->week_suiv;
-    if (cour == NULL) // Cas où l'agenda est vide
+    week_t *curr = week_head->next_week;
+    if (curr == NULL) // Cas où l'agenda est vide
     {
         free(days);
         days = NULL;
-        list->deb = days;
-        list->fin = list->deb;
+        list->start = days;
+        list->end = list->start;
     }
     else
     {
         int ListeVide = 1;
-        while (cour != NULL)
+        while (curr != NULL)
         {
-            action_t *action_cour = cour->action;
-            while (action_cour != NULL)
+            action_t *action_curr = curr->action;
+            while (action_curr != NULL)
             {
-                if (motifPresent(action_cour->nom, motif) && i < taillemax)
+                if (PatternInString(action_curr->name, motif) && i < taillemax)
                 {
-                    days[i] = action_cour->day;
+                    days[i] = action_curr->day;
                     i++;
                     ListeVide = 0;
                 }
-                action_cour = action_cour->action_suiv;
+                action_curr = action_curr->next_action;
             }
-            cour = cour->week_suiv;
+            curr = curr->next_week;
         }
         if (ListeVide) // Cas où le motif n'est pas trouvé dans l'agenda
         {
             free(days);
             days = NULL;
-            list->fin = days;
+            list->end = days;
         }
         else
         {
-            list->fin = days + i - 1;
+            list->end = days + i - 1;
         }
-        list->deb = days;
+        list->start = days;
     }
     return list;
 }

@@ -9,6 +9,6 @@ void printn(char* , int);
 
 void fprintn(FILE* , char* , int);
 
-int motifPresent(char* , char* );
+int PatternInString(char* , char* );
 
 #endif

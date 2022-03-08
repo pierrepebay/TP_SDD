@@ -1,28 +1,28 @@
 #include "week.h"
 
 /* -------------------------------------------------------------------- */
-/* writeYear écrit l'année de l'action en cours de traitement dans le champ pweek->annee */
+/* WriteYear écrit l'année de l'action en currs de traitement dans le champ pweek->year */
 /* */
-/* En entrée: pweek: un pointeur vers une week, ligne: la ligne en cours de traitement */
+/* En entrée: pweek: un pointeur vers une week, ligne: la ligne en currs de traitement */
 /* */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
-void writeYear(week_t *pweek, char *ligne)
+void WriteYear(week_t *pweek, char *ligne)
 {
     for (int i = 0; i < 4; i++)
     {
-        pweek->annee[i] = ligne[i];
+        pweek->year[i] = ligne[i];
     }
 }
 
 /* -------------------------------------------------------------------- */
-/* writeWeek écrit la week de l'action en cours de traitement dans le champ pweek->annee */
+/* WriteWeek écrit la week de l'action en currs de traitement dans le champ pweek->year */
 /* */
-/* En entrée: pweek: un pointeur vers une week, ligne: la ligne en cours de traitement */
+/* En entrée: pweek: un pointeur vers une week, ligne: la ligne en currs de traitement */
 /* */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
-void writeWeek(week_t *pweek, char *ligne)
+void WriteWeek(week_t *pweek, char *ligne)
 {
     for (int i = 4; i < 6; i++)
     {
@@ -31,24 +31,24 @@ void writeWeek(week_t *pweek, char *ligne)
 }
 
 /* -------------------------------------------------------------------- */
-/* compareSem compare l'année et le numéro de week d'une week avec l'année et le numéro de week passés en paramètre */
+/* CompareWeekDates compare l'année et le numéro de week d'une week avec l'année et le numéro de week passés en paramètre */
 /* */
-/* En entrée: annee: une chaîne de caractères représentant une annee, num_week: une chaîne de caractères représentant un numéro de week, week_cour: l'action courante */
+/* En entrée: year: une chaîne de caractères représentant une year, num_week: une chaîne de caractères représentant un numéro de week, week_curr: l'action currante */
 /* */
 /* En sortie: 1 si les dates coïncident
 2 si la date de la week est inférieure à la date passée en paramètre
 3 sinon */
 /* -------------------------------------------------------------------- */
-int compareSem(char *annee, char *num_week, week_t *week_cour)
+int CompareWeekDates(char *year, char *num_week, week_t *week_curr)
 {
     int retour = 0;
-    int annee_comp = strncmp(annee, week_cour->annee, LEN_YEAR);
-    int numweek_comp = strncmp(num_week, week_cour->num_week, LEN_WEEK);
-    if (annee_comp == 0)
+    int year_comp = strncmp(year, week_curr->year, LEN_YEAR);
+    int numweek_comp = strncmp(num_week, week_curr->num_week, LEN_WEEK);
+    if (year_comp == 0)
     {
         if (numweek_comp == 0)
         {
-            retour = MEME_DATE; // SAME DATE
+            retour = SAME_DATE; // SAME DATE
         }
         else
         {
@@ -64,7 +64,7 @@ int compareSem(char *annee, char *num_week, week_t *week_cour)
     }
     else
     {
-        if (annee_comp > 0)
+        if (year_comp > 0)
         {
             retour = DATE1_SUP_DATE2; // DATE1 > DATE2
         }
@@ -77,81 +77,81 @@ int compareSem(char *annee, char *num_week, week_t *week_cour)
 }
 
 /* -------------------------------------------------------------------- */
-/* printAll affiche chaque week avec sa liste d'actions */
+/* PrintAll affiche chaque week avec sa liste d'actions */
 /* */
 /* En entrée: week_fictive: la tête fictive de la liste des weeks */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
-void printAll(week_t *week_fictive)
+void PrintAll(week_t *week_fictive)
 {
-    week_t *cour = week_fictive->week_suiv;
-    while (cour != NULL)
+    week_t *curr = week_fictive->next_week;
+    while (curr != NULL)
     {
         printf("Year : ");
-        printn(cour->annee, LEN_YEAR);
+        printn(curr->year, LEN_YEAR);
         printf(" Week : ");
-        printn(cour->num_week, LEN_WEEK);
+        printn(curr->num_week, LEN_WEEK);
         printf("\n");
-        printActionList(cour->action);
-        cour = cour->week_suiv;
+        PrintActionList(curr->action);
+        curr = curr->next_week;
     }
 }
 
 /* -------------------------------------------------------------------- */
-/* addWeekToList insère une week dans la liste des weeks en guardant celle-ci triée */
+/* AddWeekToAgenda insère une week dans la liste des weeks en guardant celle-ci triée */
 /* */
 /* En entrée: week_head: la tête de la liste des actions, week_to_add : pointeur vers la week à inserer */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
-void addWeekToList(week_t *week_head, week_t *week_to_add)
+void AddWeekToAgenda(week_t *week_head, week_t *week_to_add)
 {
-    if (week_head->week_suiv == NULL)
+    if (week_head->next_week == NULL)
     {
-        week_head->week_suiv = week_to_add;
+        week_head->next_week = week_to_add;
     }
     else
     {
-        week_t *cour = week_head->week_suiv;
+        week_t *curr = week_head->next_week;
         week_t *prec = week_head;
-        while (cour != NULL && compareSem(week_to_add->annee, week_to_add->num_week, cour) != DATE1_INF_DATE2)
+        while (curr != NULL && CompareWeekDates(week_to_add->year, week_to_add->num_week, curr) != DATE1_INF_DATE2)
         {
-            prec = cour;
-            cour = cour->week_suiv;
+            prec = curr;
+            curr = curr->next_week;
         }
-        prec->week_suiv = week_to_add;
-        week_to_add->week_suiv = cour;
+        prec->next_week = week_to_add;
+        week_to_add->next_week = curr;
     }
 }
 
 /* -------------------------------------------------------------------- */
-/* getWeekPtr recherche une week spécifique dans la liste des weeks */
+/* GetWeekPtr recherche une week spécifique dans la liste des weeks */
 /* */
-/* En entrée: week_head: la tête de la liste des actions, week_cour : pointeur vers une week à chercher */
+/* En entrée: week_head: la tête de la liste des actions, week_curr : pointeur vers une week à chercher */
 /* En sortie: NULL si la week n'est pas dans la liste des weeks, sinon retourne l'adresse de la week qui figure dans la liste */
 /* -------------------------------------------------------------------- */
-week_t *getWeekPtr(week_t *week_head, week_t *week_cour)
+week_t *GetWeekPtr(week_t *week_head, week_t *week_curr)
 {
-    week_t *cour = week_head->week_suiv;
+    week_t *curr = week_head->next_week;
     week_t *res = NULL;
-    while (!res && cour && compareSem(cour->annee, cour->num_week, week_cour) != DATE1_SUP_DATE2)
+    while (!res && curr && CompareWeekDates(curr->year, curr->num_week, week_curr) != DATE1_SUP_DATE2)
     {
-        if (!strncmp(cour->annee, week_cour->annee, LEN_YEAR) && !strncmp(cour->num_week, week_cour->num_week, LEN_WEEK))
+        if (!strncmp(curr->year, week_curr->year, LEN_YEAR) && !strncmp(curr->num_week, week_curr->num_week, LEN_WEEK))
         {
-            res = cour;
+            res = curr;
         }
-        cour = cour->week_suiv;
+        curr = curr->next_week;
     }
     return res;
 }
 
 /* -------------------------------------------------------------------- */
-/* freeWeek libère une week */
+/* FreeWeek libère une week */
 /* */
-/* En entrée: week_courante: pointeur vers la week à liberer */
+/* En entrée: week_currante: pointeur vers la week à liberer */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
-void freeWeek(week_t *week_courante)
+void FreeWeek(week_t *week_currante)
 {
-    freeActions(week_courante->action);
-    free(week_courante);
+    FreeActions(week_currante->action);
+    free(week_currante);
 }

@@ -10,23 +10,23 @@
 typedef struct action
 {
     char day;
-    char heure[LEN_HOUR];
-    char nom[LEN_TASK_NAME];
-    struct action* action_suiv;
+    char hour[LEN_HOUR];
+    char name[LEN_TASK_NAME];
+    struct action* next_action;
 } action_t;
 
-void writeDay(action_t*, char*);
+void WriteDay(action_t*, char*);
 
-void writeHour(action_t*, char*);
+void WriteHour(action_t*, char*);
 
-void writeName(action_t*, char*);
+void WriteName(action_t*, char*);
 
-int compareDates(char, char*, action_t*);
+int CompareActionDates(char, char*, action_t*);
 
-void printActionList(action_t*);
+void PrintActionList(action_t*);
 
-void addActionToList(action_t*, action_t*);
+void AddActionToList(action_t*, action_t*);
 
-void freeActions(action_t*);
+void FreeActions(action_t*);
 
 #endif

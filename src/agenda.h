@@ -3,19 +3,19 @@
 
 #include "week.h"
 
-void traitementLigne(week_t* , action_t* , char* );
+void ProcessLine(week_t* , action_t* , char* );
 
-void insertToList(week_t* , week_t* , action_t* );
+void InsertToAgenda(week_t* , week_t* , action_t* );
 
-week_t* createAgendaFromFile(char* );
+week_t* CreateAgendaFromFile(char* );
 
-void printDayList(dayList_t* );
+void PrintDayList(dayList_t* );
 
-void freeDayList(dayList_t* );
+void FreeDayList(dayList_t* );
 
-void freeAll(week_t* , dayList_t* );
+void FreeAll(week_t* , dayList_t* );
 
-void saveListFile(week_t* , char* );
+void WriteAgendaFile(week_t* , char* );
 
-dayList_t* createDayList(week_t* , char* , int);
+dayList_t* CreateDayList(week_t* , char* , int);
 #endif

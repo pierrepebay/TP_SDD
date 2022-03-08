@@ -3,7 +3,7 @@
 
 #include "action.h"
 
-#define MEME_DATE 1
+#define SAME_DATE 1
 #define DATE1_SUP_DATE2 2
 #define DATE1_INF_DATE2 3
 
@@ -12,35 +12,35 @@
 
 typedef struct week
 {
-    char annee[LEN_YEAR];
+    char year[LEN_YEAR];
     char num_week[LEN_WEEK];
     action_t* action;
-    struct week* week_suiv;
+    struct week* next_week;
 } week_t;
 
 typedef struct dayList
 {
-    char* deb;
-    char* fin;
+    char* start;
+    char* end;
     int tailleMax;
 } dayList_t;
 
 
 
-void writeYear(week_t*, char*);
+void WriteYear(week_t*, char*);
 
-void writeWeek(week_t*, char*);
+void WriteWeek(week_t*, char*);
 
-int compareSem(char*, char*, week_t*);
+int CompareWeekDates(char*, char*, week_t*);
 
-void printAll(week_t*);
+void PrintAll(week_t*);
 
-void removeActionFromList(week_t*, char*, char*, char, char*);
+void RemoveActionFromAgenda(week_t*, char*, char*, char, char*);
 
-void addWeekToList(week_t*, week_t*);
+void AddWeekToAgenda(week_t*, week_t*);
 
-week_t*getWeekPtr(week_t*, week_t*);
+week_t*GetWeekPtr(week_t*, week_t*);
 
-void freeWeek(week_t*);
+void FreeWeek(week_t*);
 
 #endif
