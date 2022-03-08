@@ -1,6 +1,10 @@
 #ifndef WEEK_HEADER_
 #define WEEK_HEADER_
 
+/*
+Ce fichier contient les structures week et dayList ainsi que les fonctions associées.
+*/
+
 #include "action.h"
 
 #define SAME_DATE 1

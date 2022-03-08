@@ -1,6 +1,10 @@
 #ifndef ACTION_HEADER_
 #define ACTION_HEADER_
 
+/*
+Ce fichier contient la structure action ainsi que les fonctions associées.
+*/
+
 #include "utilities.h"
 
 #define LEN_DAY 1

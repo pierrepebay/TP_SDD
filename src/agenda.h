@@ -1,6 +1,12 @@
 #ifndef AGENDA_HEADER_
 #define AGENDA_HEADER_
 
+/*
+Ce fichier contient les fonctions s'appliquant sur les structures action
+et week, c'est-à-dire celles qui gèrent la liste chainée à double niveau 
+dans son intégralité.
+*/
+
 #include "week.h"
 
 void ProcessLine(week_t *pweek, action_t *paction, char *ligne);
