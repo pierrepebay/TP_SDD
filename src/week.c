@@ -173,8 +173,6 @@ void RemoveActionFromAgenda(week_t *week_fictive, char *year, char *week, char d
             if (action_curr == week_curr->action) // si l'action se trouve en tête de liste
             {
                 week_curr->action = action_curr->next_action;
-                week_prec->next_week = week_curr->next_week;
-                free(week_curr);
             }
             else
             {
