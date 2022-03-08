@@ -12,17 +12,17 @@ void ProcessLine(week_t *pweek, action_t *paction, char *ligne)
 void InsertToAgenda(week_t *week_head, week_t *week_tmp, action_t *action_curr)
 {
     week_t *week_curr = NULL;
-    week_curr = GetWeekPtr(week_head, week_tmp); // recherche si la week appartient à la liste des weeks
+    week_curr = GetWeekPtr(week_head, week_tmp); // recherche si la semaine appartient à la liste des semaines
     if (week_curr == NULL)
-    { // si la week n'appartient pas à la liste des weeks
+    { // si la semaine n'appartient pas à la liste des semaines
         week_curr = week_tmp;
         week_curr->action = action_curr;
         AddWeekToAgenda(week_head, week_curr);
     }
     else
-    { // si la week est déjà présente dans la liste des weeks
+    { // si la semaine est déjà présente dans la liste des semaines
         AddActionToList(week_curr->action, action_curr);
-        free(week_tmp); // on libère la week temporaire
+        free(week_tmp); // on libère la semaine temporaire
     }
 }
 
@@ -30,7 +30,7 @@ week_t *CreateAgendaFromFile(char *file_name)
 {
     char ligne[21];
     FILE *file = fopen(file_name, "r");
-    week_t *week_head = (week_t *)calloc(1, sizeof(week_t)); // tête fictive de la liste des weeks
+    week_t *week_head = (week_t *)calloc(1, sizeof(week_t)); // tête fictive de la liste des semaines
     if (!week_head)
     {
         printf("Allocation failed.\n");
@@ -57,6 +57,8 @@ week_t *CreateAgendaFromFile(char *file_name)
 
                 // insertion de la tâche dans le calendrier
                 InsertToAgenda(week_head, week_tmp, action_curr);
+
+                // lecture de la ligne suivante
                 fgets(ligne, 21, file);
             }
             else
@@ -154,16 +156,16 @@ void WriteAgendaFile(week_t *week_head, char *file_name)
     }
 }
 
-dayList_t *CreateDayList(week_t *week_head, char *motif, int taillemax)
+dayList_t *CreateDayList(week_t *week_head, char *motif, int maxsize)
 {
     dayList_t *list = (dayList_t *)calloc(1, sizeof(dayList_t));
-    char *days = (char *)calloc(taillemax, sizeof(char));
+    char *days = (char *)calloc(maxsize, sizeof(char));
     if (!(list && days))
     {
         printf("Allocation Failed.\n");
         exit(EXIT_FAILURE);
     }
-    list->tailleMax = taillemax;
+    list->MaxSize = maxsize;
     int i = 0;
     week_t *curr = week_head->next_week;
     if (curr == NULL) // Cas où l'agenda est vide
@@ -181,7 +183,7 @@ dayList_t *CreateDayList(week_t *week_head, char *motif, int taillemax)
             action_t *action_curr = curr->action;
             while (action_curr != NULL)
             {
-                if (PatternInString(action_curr->name, motif) && i < taillemax)
+                if (PatternInString(action_curr->name, motif) && i < maxsize)
                 {
                     days[i] = action_curr->day;
                     i++;

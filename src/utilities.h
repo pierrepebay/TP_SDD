@@ -5,10 +5,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-void printn(char* , int);
+void printn(char *string, int n);
 
-void fprintn(FILE* , char* , int);
+void fprintn(FILE *file, char *string, int n);
 
-int PatternInString(char* , char* );
+int PatternInString(char *string, char *pattern);
 
 #endif

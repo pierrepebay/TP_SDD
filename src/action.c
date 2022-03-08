@@ -2,9 +2,9 @@
 #include "week.h"
 
 /* -------------------------------------------------------------------- */
-/* WriteDay écrit le day de l'action en currs de traitement dans le champ pweek->year */
+/* WriteDay écrit le jour de l'action en cours de traitement dans le champ paction->day */
 /* */
-/* En entrée: pweek: un pointeur vers une week, ligne: la ligne en currs de traitement */
+/* En entrée: paction: un pointeur vers une action, ligne: la ligne en cours de traitement */
 /* */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
@@ -14,9 +14,9 @@ void WriteDay(action_t *paction, char *ligne)
 }
 
 /* -------------------------------------------------------------------- */
-/* WriteHour écrit l'hour de l'action en currs de traitement dans le champ pweek->year */
+/* WriteHour écrit l'heure de l'action en cours de traitement dans le champ paction->hour */
 /* */
-/* En entrée: pweek: un pointeur vers une week, ligne: la ligne en currs de traitement */
+/* En entrée: paction: un pointeur vers une action, ligne: la ligne en cours de traitement */
 /* */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
@@ -27,9 +27,9 @@ void WriteHour(action_t *paction, char *ligne)
 }
 
 /* -------------------------------------------------------------------- */
-/* WriteName écrit le name de l'action en currs de traitement dans le champ pweek->year */
+/* WriteName écrit le nom de l'action en cours de traitement dans le champ paction->name */
 /* */
-/* En entrée: pweek: un pointeur vers une week, ligne: la ligne en currs de traitement */
+/* En entrée: paction: un pointeur vers une action, ligne: la ligne en currs de traitement */
 /* */
 /* En sortie: void */
 /* -------------------------------------------------------------------- */
@@ -42,9 +42,9 @@ void WriteName(action_t *paction, char *ligne)
 }
 
 /* -------------------------------------------------------------------- */
-/* CompareActionDates compare la date d'une action avec la date donnée en paramètre */
+/* CompareActionDates compare la date d'une action avec une date donnée en paramètre */
 /* */
-/* En entrée: day: une chaîne de caractères représentant un day, hour: une chaîne de caractères représentant une hour, action_curr: l'action currante */
+/* En entrée: day: une chaîne de caractères représentant un jour, hour: une chaîne de caractères représentant une heure, action_curr: l'action currante */
 /* */
 /* En sortie: 1 si les dates coïncident
 2 si la date de l'action est inférieure à la date passée en paramètre
@@ -131,50 +131,6 @@ void AddActionToList(action_t *action_head, action_t *paction)
         }
         prec->next_action = paction;
         paction->next_action = curr;
-    }
-}
-
-/* -------------------------------------------------------------------- */
-/* RemoveActionFromAgenda supprime une action du calendrier */
-/* */
-/* En entrée: week_fictive: la tête fictive de la liste des weeks, year: chaîne de caractères représentant l'année de l'action à supprimer, week: chaîne de caractères représentant la week de l'action à supprimer, day: chaîne de caractères représentant le day de l'action à supprimer, hour: chaîne de caractères représentant l'hour de l'action à supprimer  */
-/* En sortie: void */
-/* -------------------------------------------------------------------- */
-void RemoveActionFromAgenda(week_t *week_fictive, char *year, char *week, char day, char *hour)
-{
-    week_t *week_curr = week_fictive->next_week;
-    week_t *week_prec = week_fictive;
-    while (week_curr && CompareWeekDates(year, week, week_curr) != SAME_DATE)
-    {
-        week_prec = week_curr;
-        week_curr = week_curr->next_week;
-    }
-    if (week_curr)
-    {
-        action_t *action_curr = week_curr->action;
-        action_t *action_prec = action_curr;
-        while (action_curr && CompareActionDates(day, hour, action_curr) != SAME_DATE)
-        {
-            action_prec = action_curr;
-            action_curr = action_curr->next_action;
-        }
-        if (action_curr)
-        {
-            if (action_curr == week_curr->action)
-            {
-                week_curr->action = action_curr->next_action;
-            }
-            else
-            {
-                action_prec->next_action = action_curr->next_action;
-            }
-            free(action_curr);
-            if (!week_curr->action)
-            {
-                week_prec->next_week = week_curr->next_week;
-                free(week_curr);
-            }
-        }
     }
 }
 

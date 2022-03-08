@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
         RemoveActionFromAgenda(head_week,"1998","20",'5',"10");
         PrintAll(head_week);
         WriteAgendaFile(head_week, "WriteAgendaFile.txt");
-        dayList_t *list_days = CreateDayList(head_week, "Test", 2);
+        dayList_t *list_days = CreateDayList(head_week, "Test1", 5);
         PrintDayList(list_days);
         FreeAll(head_week, list_days);
     }

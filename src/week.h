@@ -22,25 +22,25 @@ typedef struct dayList
 {
     char* start;
     char* end;
-    int tailleMax;
+    int MaxSize;
 } dayList_t;
 
 
 
-void WriteYear(week_t*, char*);
+void WriteYear(week_t *pweek, char *ligne);
 
-void WriteWeek(week_t*, char*);
+void WriteWeek(week_t *pweek, char *ligne);
 
-int CompareWeekDates(char*, char*, week_t*);
-
-void PrintAll(week_t*);
+int CompareWeekDates(char *year, char *num_week, week_t *week_curr);
 
 void RemoveActionFromAgenda(week_t*, char*, char*, char, char*);
 
-void AddWeekToAgenda(week_t*, week_t*);
+void PrintAll(week_t* week_fictive);
 
-week_t*GetWeekPtr(week_t*, week_t*);
+void AddWeekToAgenda(week_t *week_head, week_t *week_to_add);
 
-void FreeWeek(week_t*);
+week_t*GetWeekPtr(week_t *week_head, week_t *week_curr);
+
+void FreeWeek(week_t* week);
 
 #endif

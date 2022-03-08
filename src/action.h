@@ -15,18 +15,18 @@ typedef struct action
     struct action* next_action;
 } action_t;
 
-void WriteDay(action_t*, char*);
+void WriteDay(action_t* action, char* ligne);
 
-void WriteHour(action_t*, char*);
+void WriteHour(action_t* action, char* ligne);
 
-void WriteName(action_t*, char*);
+void WriteName(action_t* action, char* ligne);
 
-int CompareActionDates(char, char*, action_t*);
+int CompareActionDates(char day, char* hour, action_t* action);
 
-void PrintActionList(action_t*);
+void PrintActionList(action_t* action_head);
 
-void AddActionToList(action_t*, action_t*);
+void AddActionToList(action_t *action_head, action_t *paction);
 
-void FreeActions(action_t*);
+void FreeActions(action_t* action_head);
 
 #endif
