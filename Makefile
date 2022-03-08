@@ -2,13 +2,14 @@ CC=gcc
 
 CFLAG= -Wall -Wextra -g
 EXEC=res
-SRC=$(wildcard *.c)
+SRC=$(wildcard src/*.c)
 OBJ=$(SRC:.c=.o)
 
 all:$(EXEC)
 
 $(EXEC):$(OBJ)
 	$(CC) -o $@ $^
+	mv $^ bin/
 
 %.o:%.c
 	$(CC) -o $@ -c $< $(CFLAG)
@@ -16,5 +17,5 @@ $(EXEC):$(OBJ)
 .PHONY:clean
 
 clean:
-	rm -rf *.o
+	rm -rf bin/*.o
 	rm -rf $(EXEC)
