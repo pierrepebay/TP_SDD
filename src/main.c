@@ -1,5 +1,5 @@
 #include "agenda.h"
-#include "jeu_de_test.h"
+//#include "testing.h" //à inclure si on veut utiliser les fonctions de test
 
 int main(int argc, char *argv[])
 {
@@ -15,7 +15,8 @@ int main(int argc, char *argv[])
     }
     else
     {
-        run_tests();
+        printf("Usage: %s <file>\n", argv[0]);
+        //run_tests(); //à décommenter si on veut utiliser les fonctions de test
     }
     return 0;
 }
